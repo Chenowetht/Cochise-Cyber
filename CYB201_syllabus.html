@@ -18,6 +18,16 @@
         .slide.active {
             display: block;
         }
+        /* Added for responsive video */
+        .aspect-w-16 { position: relative; padding-bottom: 56.25%; }
+        .aspect-h-9 { /* Not needed but good practice */ }
+        .aspect-w-16 > iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col h-full antialiased">
@@ -39,7 +49,7 @@
                 <button id="prev-btn" class="bg-gray-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     Previous
                 </button>
-                <span id="slide-counter" class="text-sm text-gray-400">Slide 1 / 17</span>
+                <span id="slide-counter" class="text-sm text-gray-400"></span>
                 <button id="next-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
                     Next
                 </button>
@@ -71,6 +81,22 @@
                     `,
                     notes: "Make this personal! Briefly share your background in cybersecurity. What got you into this field? What's a cool project you've worked on? This builds rapport."
                 },
+                // *** NEW OFFICE HOURS SLIDE ADDED HERE ***
+                {
+                    title: "Office Hours: Your Time for Help",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Office Hours: Your Time for Help</h2>
+                        <p class="text-lg mb-6 max-w-3xl mx-auto">This is your dedicated time to ask questions, get help with labs, or discuss course concepts one-on-one. No appointment needed for these times!</p>
+                        <div class="text-left max-w-md mx-auto bg-gray-800 p-6 rounded-lg border border-gray-700">
+                            <ul class="space-y-3 text-lg">
+                                <li><strong class="text-red-300 w-32 inline-block">Mon & Wed:</strong> 2:00 PM - 3:30 PM</li>
+                                <li><strong class="text-red-300 w-32 inline-block">Tues & Thurs:</strong> 2:30 PM - 4:00 PM</li>
+                                <li><strong class="text-red-300 w-32 inline-block">Fridays:</strong> By request</li>
+                            </ul>
+                        </div>
+                    `,
+                    notes: "Encourage students to use this time. Let them know it's a key resource for their success in the course."
+                },
                 {
                     title: "Who Are YOU? (Icebreaker)",
                     content: `
@@ -79,7 +105,7 @@
                         <ol class="space-y-4 text-lg md:text-xl text-left max-w-xl mx-auto list-decimal list-inside">
                             <li>Your Name</li>
                             <li>One thing you hope to learn in this course.</li>
-                            <li>Your favorite "hacker" movie or TV show. <span class="text-gray-400 text-sm">(Mr. Robot? The Matrix? WarGames?)</span></li>
+                            <li>Your favorite "hacker" movie, TV show, or game. <span class="text-gray-400 text-sm">(Mr. Robot? The Matrix? WarGames?)</span></li>
                         </ol>
                     `,
                     notes: "This is a great way to build community from day one. It gets students talking and helps you understand their interests and expectations."
@@ -98,6 +124,23 @@
                         </ul>
                     `,
                     notes: "Frame this as an exciting challenge. Emphasize the 'hands-on' nature of the course. You're not just going to learn theory; you're going to *do* things."
+                },
+                {
+                    title: "Setting the Stage: The Threat Landscape",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Setting the Stage: The Threat Landscape</h2>
+                        <p class="text-lg mb-4 max-w-3xl mx-auto">Before we dive in, let's see why this field is so critical. This video gives a great overview of modern cyber threats.</p>
+                        <div class="aspect-w-16 aspect-h-9 max-w-3xl mx-auto bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                            <iframe
+                                src="https://www.youtube.com/embed/hfftqZEx4-g" 
+                                title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    `,
+                    notes: "Use this video to set a serious, focused tone. It highlights the real-world importance of the skills they are about to learn."
                 },
                 {
                     title: "The 'Why' - A Real-World Story",
@@ -137,9 +180,9 @@
                         <h2 class="text-3xl md:text-4xl font-bold mb-6">Our Roadmap for the Semester</h2>
                         <ul class="space-y-4 text-lg md:text-xl text-left max-w-2xl mx-auto">
                             <li><strong class="text-red-300">Weeks 1-4:</strong> The Foundation - Network Security Fundamentals & Design</li>
-                            <li><strong class="text-red-300">Weeks 5-9:</strong> Building the Walls - All About Firewalls & Midterm</li>
-                            <li><strong class="text-red-300">Weeks 10-13:</strong> Secret Tunnels - VPNs & Remote Access</li>
-                            <li><strong class="text-red-300">Weeks 14-17:</strong> Putting It All Together - Advanced Topics, Final Project & Final Exam</li>
+                            <li><strong class="text-red-300">Weeks 5-8:</strong> Building the Walls - All About Firewalls & Midterm</li>
+                            <li><strong class="text-red-300">Weeks 9-13:</strong> Secret Tunnels - VPNs & Remote Access</li>
+                            <li><strong class="text-red-300">Weeks 14-17:</strong> Putting It All Together - Advanced Topics & Final Project</li>
                         </ul>
                     `,
                     notes: "Keep this high-level. Call out a topic you think is particularly cool, like 'Penetration Testing a pfSense Firewall' in Week 13, to build anticipation."
