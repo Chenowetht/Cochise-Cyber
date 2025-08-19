@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYB201: Cybersecurity for Networking Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .slide {
+            display: none;
+        }
+        .slide.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col h-full antialiased">
+
+    <!-- Main Content -->
+    <main id="presentation-container" class="flex-grow flex flex-col items-center justify-center p-4 sm:p-6 md:p-8">
+        <!-- Slides will be injected here by JS -->
+    </main>
+
+    <!-- Footer with Navigation and Progress -->
+    <footer class="bg-gray-800 border-t border-gray-700 p-4 w-full">
+        <div class="max-w-4xl mx-auto">
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-600 rounded-full h-2.5 mb-4">
+                <div id="progress-bar" class="bg-red-500 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" class="bg-gray-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Previous
+                </button>
+                <span id="slide-counter" class="text-sm text-gray-400">Slide 1 / 17</span>
+                <button id="next-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
+                    Next
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slidesData = [
+                {
+                    title: "Welcome to CYB201: Cybersecurity for Networking",
+                    content: `
+                        <h2 class="text-4xl md:text-5xl font-bold text-red-400">CYB201: Cybersecurity for Networking</h2>
+                        <p class="mt-4 text-xl md:text-2xl text-gray-300">Fall 2025</p>
+                        <p class="mt-8 text-2xl md:text-3xl font-semibold">Your Instructor: Timothy Chenoweth</p>
+                    `,
+                    notes: "Start with high energy! Welcome everyone. Let them know that today is about more than just the syllabus; it's about kicking off our journey into the world of network defense."
+                },
+                {
+                    title: "Who Am I?",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Meet Your Guide: Timothy Chenoweth</h2>
+                        <ul class="space-y-4 text-lg md:text-xl text-left max-w-2xl mx-auto">
+                            <li class="flex items-start"><span class="text-red-400 mr-3 text-2xl">🏢</span> <strong>Office:</strong> D112, Downtown Center</li>
+                            <li class="flex items-start"><span class="text-red-400 mr-3 text-2xl">📧</span> <strong>Email:</strong> Chenowetht@cochise.edu (The best way to reach me!)</li>
+                            <li class="flex items-start"><span class="text-red-400 mr-3 text-2xl">⏱️</span> <strong>Response Time:</strong> I'll get back to your emails within 48 hours.</li>
+                        </ul>
+                    `,
+                    notes: "Make this personal! Briefly share your background in cybersecurity. What got you into this field? What's a cool project you've worked on? This builds rapport."
+                },
+                {
+                    title: "Who Are YOU? (Icebreaker)",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Let's get to know the team.</h2>
+                        <p class="mb-6 text-lg">Introduce yourself to the class:</p>
+                        <ol class="space-y-4 text-lg md:text-xl text-left max-w-xl mx-auto list-decimal list-inside">
+                            <li>Your Name</li>
+                            <li>One thing you hope to learn in this course.</li>
+                            <li>Your favorite "hacker" movie or TV show. <span class="text-gray-400 text-sm">(Mr. Robot? The Matrix? WarGames?)</span></li>
+                        </ol>
+                    `,
+                    notes: "This is a great way to build community from day one. It gets students talking and helps you understand their interests and expectations."
+                },
+                {
+                    title: "What's This Course All About?",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Our Mission, Should You Choose to Accept It...</h2>
+                        <p class="text-lg md:text-xl mb-6 max-w-3xl mx-auto">Is to give you the knowledge and tools to build and defend computer networks.</p>
+                        <h3 class="font-semibold text-2xl mb-4 text-red-300">You will learn to:</h3>
+                        <ul class="space-y-3 text-lg md:text-xl text-left max-w-2xl mx-auto list-disc list-inside">
+                            <li>Protect IT infrastructure from real-world threats.</li>
+                            <li>Detect and document network intrusions.</li>
+                            <li>Use industry-standard tools to map and monitor networks.</li>
+                            <li>Think like a cybersecurity professional!</li>
+                        </ul>
+                    `,
+                    notes: "Frame this as an exciting challenge. Emphasize the 'hands-on' nature of the course. You're not just going to learn theory; you're going to *do* things."
+                },
+                {
+                    title: "The 'Why' - A Real-World Story",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">The "Why" - A Real-World Story</h2>
+                        <div class="text-lg md:text-xl max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg border border-red-500">
+                            <p>Think about the <strong class="text-red-300">Colonial Pipeline</strong> ransomware attack. Hackers gained access through a single compromised password on a VPN account.</p>
+                            <p class="mt-4">In this class, we'll learn about the very tools that could have prevented this: secure VPN configuration, network monitoring to detect unusual activity, and robust firewall rules.</p>
+                        </div>
+                    `,
+                    notes: "Tell a brief story about a major, network-related cyberattack. Explain how the concepts we'll learn in this class could have played a role in defending against it. This makes the course content immediately relevant and important."
+                },
+                {
+                    title: "Activity: Think Like an Attacker",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Activity: Think Like an Attacker</h2>
+                        <div class="bg-gray-800 p-6 rounded-lg border border-red-500 max-w-3xl mx-auto">
+                            <p class="text-lg font-semibold mb-2">Scenario:</p>
+                            <p class="text-lg mb-4">You're in a coffee shop and want to get access to another person's laptop on the public Wi-Fi.</p>
+                            <p class="text-lg font-semibold mb-2">Your Task (2 minutes):</p>
+                            <p class="text-lg">Jot down the first three things you might try. We're not actually doing this, but let's put on our "black hats" for a moment.</p>
+                        </div>
+                    `,
+                    notes: "After 2 minutes, ask for a few volunteers to share their ideas. This is a fun, low-stakes way to get them into the problem-solving, adversarial mindset that's crucial for a defender."
+                },
+                {
+                    title: "Let's Take a Break!",
+                    content: `
+                        <h2 class="text-5xl md:text-6xl font-bold text-red-400">10-Minute Break</h2>
+                        <p class="mt-6 text-xl md:text-2xl">Stretch, grab some water, and we'll be right back.</p>
+                    `,
+                    notes: ""
+                },
+                {
+                    title: "Our Roadmap for the Semester",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Our Roadmap for the Semester</h2>
+                        <ul class="space-y-4 text-lg md:text-xl text-left max-w-2xl mx-auto">
+                            <li><strong class="text-red-300">Weeks 1-4:</strong> The Foundation - Network Security Fundamentals & Design</li>
+                            <li><strong class="text-red-300">Weeks 5-9:</strong> Building the Walls - All About Firewalls & Midterm</li>
+                            <li><strong class="text-red-300">Weeks 10-13:</strong> Secret Tunnels - VPNs & Remote Access</li>
+                            <li><strong class="text-red-300">Weeks 14-17:</strong> Putting It All Together - Advanced Topics, Final Project & Final Exam</li>
+                        </ul>
+                    `,
+                    notes: "Keep this high-level. Call out a topic you think is particularly cool, like 'Penetration Testing a pfSense Firewall' in Week 13, to build anticipation."
+                },
+                {
+                    title: "How You'll Level Up (Grading)",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">How You'll Level Up (Grading)</h2>
+                        <ul class="space-y-4 text-lg md:text-xl text-left max-w-3xl mx-auto">
+                            <li><strong class="text-red-300 text-2xl">50%</strong> - 💻 Assignments & Labs: Get Your Hands Dirty! Use tools like Wireshark, Nmap, and pfSense.</li>
+                            <li><strong class="text-red-300 text-2xl">25%</strong> - 🧠 Quizzes: Weekly Knowledge Checks.</li>
+                            <li><strong class="text-red-300 text-2xl">15%</strong> - 🏆 Exams: Show What You Know (Midterm & Final).</li>
+                            <li><strong class="text-red-300 text-2xl">10%</strong> - 💬 Discussions: Let's Talk Shop.</li>
+                        </ul>
+                    `,
+                    notes: "Stress that the labs and assignments are the biggest part of their grade because applying their knowledge is the most important skill they'll learn."
+                },
+                {
+                    title: "The Final Project: Your Masterpiece",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">The Final Project: Your Masterpiece</h2>
+                        <p class="text-lg md:text-xl mb-6 max-w-3xl mx-auto">This isn't a one-and-done assignment. You'll work on a comprehensive cybersecurity plan in four parts throughout the semester.</p>
+                        <ol class="space-y-3 text-lg md:text-xl text-left max-w-2xl mx-auto list-decimal list-inside">
+                            <li>Assess a network's vulnerabilities.</li>
+                            <li>Design a secure network strategy.</li>
+                            <li>Implement your security measures.</li>
+                            <li>Present your final, defended infrastructure.</li>
+                        </ol>
+                    `,
+                    notes: "Build this up as the capstone of their experience in the class. It’s their chance to synthesize everything they’ve learned into one impressive project."
+                },
+                {
+                    title: "Time for a Second Break!",
+                    content: `
+                        <h2 class="text-5xl md:text-6xl font-bold text-red-400">10-Minute Break</h2>
+                        <p class="mt-6 text-xl md:text-2xl">Last one! We'll wrap up after this.</p>
+                    `,
+                    notes: ""
+                },
+                {
+                    title: "The AI Question: A New Tool in Your Kit",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">The AI Question: A New Tool in Your Kit</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                            <div class="bg-gray-700/50 border border-gray-500 p-4 rounded-lg">
+                                <h3 class="text-2xl font-semibold text-gray-200 mb-3">✅ What you CAN do:</h3>
+                                <ul class="space-y-2 list-disc list-inside">
+                                    <li>Brainstorm ideas & outline work</li>
+                                    <li>Clarify concepts and debug code</li>
+                                    <li>Improve grammar & get practice questions</li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-900/50 border border-red-500 p-4 rounded-lg">
+                                <h3 class="text-2xl font-semibold text-red-300 mb-3">❌ What you CANNOT do:</h3>
+                                <ul class="space-y-2 list-disc list-inside">
+                                    <li>Submit AI-generated work as your own</li>
+                                    <li>Use AI on quizzes or exams</li>
+                                    <li>Paste any confidential data into an AI tool</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `,
+                    notes: "We'll use AI to enhance our learning, but we need to be smart and ethical about it."
+                },
+                {
+                    title: "The Golden Rule of AI",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">The Golden Rule of AI</h2>
+                        <div class="bg-red-900/50 border border-red-500 p-6 rounded-lg max-w-3xl mx-auto">
+                            <p class="text-2xl font-semibold mb-4">If you use it, you MUST disclose it.</p>
+                            <p class="text-lg mb-4">Every assignment that uses AI must include an "AI Use Appendix" detailing:</p>
+                            <ul class="space-y-2 list-disc list-inside text-left">
+                                <li>What tools you used</li>
+                                <li>What prompts you gave it</li>
+                                <li>How you edited and verified the output</li>
+                            </ul>
+                            <p class="mt-6 text-xl font-bold text-red-300">Failure to cite AI use will result in a zero on the assignment.</p>
+                        </div>
+                    `,
+                    notes: "Be very clear and firm on this slide. Explain that in the professional world, transparency and ethics are non-negotiable."
+                },
+                {
+                    title: "Group Activity: AI Brainstorming Session",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Group Activity: AI Brainstorming</h2>
+                        <div class="bg-gray-800 p-6 rounded-lg border border-red-500 max-w-3xl mx-auto">
+                            <p class="text-lg font-semibold mb-2">Your Task (10 minutes):</p>
+                            <ol class="space-y-2 list-decimal list-inside text-left">
+                                <li>Get into small groups.</li>
+                                <li>Choose an AI tool (ChatGPT, Gemini, etc.).</li>
+                                <li>Use it to brainstorm <strong class="text-red-300">five potential security vulnerabilities for a small coffee shop's network.</strong></li>
+                                <li>Think about the prompt you'll use. How can you get the best results?</li>
+                                <li>Be ready to share one vulnerability your group found.</li>
+                            </ol>
+                        </div>
+                    `,
+                    notes: "This is a practical application of the AI policy. It shows them an acceptable and useful way to leverage AI for brainstorming in this course. Encourage them to experiment with their prompts."
+                },
+                {
+                    title: "What's In It For You? (The Career Connection)",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">What's In It For You? (The Career Connection)</h2>
+                        <p class="text-lg md:text-xl mb-6">The skills you learn here are in high demand. This course is a direct stepping stone to roles like:</p>
+                        <div class="flex flex-wrap justify-center gap-4 text-lg">
+                            <span class="bg-red-500/80 px-4 py-2 rounded-full">Network Security Analyst</span>
+                            <span class="bg-red-500/80 px-4 py-2 rounded-full">SOC Analyst</span>
+                            <span class="bg-red-500/80 px-4 py-2 rounded-full">Penetration Tester</span>
+                            <span class="bg-red-500/80 px-4 py-2 rounded-full">Systems Administrator</span>
+                        </div>
+                    `,
+                    notes: "This answers the 'why am I here?' question in a very practical way. You can even pull up a couple of local job postings on a site like LinkedIn or Indeed that list these skills."
+                },
+                {
+                    title: "Keys to Success",
+                    content: `
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Keys to Success</h2>
+                        <ol class="space-y-4 text-lg md:text-xl text-left max-w-3xl mx-auto list-decimal list-inside">
+                            <li><strong class="text-red-300">Show Up & Participate:</strong> Attendance isn't just logging in; it's submitting work and engaging in discussions.</li>
+                            <li><strong class="text-red-300">Your First Quest:</strong> Complete the Syllabus Quiz in Moodle by Monday, August 25th. This is mandatory to stay enrolled!</li>
+                            <li><strong class="text-red-300">Stay Connected:</strong> Check your Cochise College email and our Moodle page regularly.</li>
+                            <li><strong class="text-red-300">Ask for Help!</strong> Don't struggle in silence. Talk to me, visit the Tutoring Center, or use the college's other support services.</li>
+                        </ol>
+                    `,
+                    notes: ""
+                },
+                {
+                    title: "Questions?",
+                    content: `
+                        <h2 class="text-6xl md:text-8xl font-bold text-red-400">Questions?</h2>
+                    `,
+                    notes: "Open the floor for any and all questions. This is a great time to build rapport and address any anxieties students might have."
+                }
+            ];
+
+            const container = document.getElementById('presentation-container');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const slideCounter = document.getElementById('slide-counter');
+
+            let currentSlide = 0;
+
+            // Generate slide HTML
+            slidesData.forEach((slide, index) => {
+                const slideEl = document.createElement('div');
+                slideEl.className = 'slide w-full max-w-4xl text-center px-4';
+                slideEl.innerHTML = `
+                    <div class="bg-gray-800/50 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[50vh] flex flex-col justify-center">
+                        ${slide.content}
+                        ${slide.notes ? `<div class="mt-8 pt-4 border-t border-gray-600 text-left">
+                                            <p class="text-sm text-yellow-300/80 font-semibold">Presenter Note:</p>
+                                            <p class="text-sm text-gray-400 italic">${slide.notes}</p>
+                                          </div>` : ''}
+                    </div>
+                `;
+                container.appendChild(slideEl);
+            });
+            
+            const slideElements = document.querySelectorAll('.slide');
+
+            function showSlide(index) {
+                slideElements.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+
+                // Update progress bar
+                const progress = ((index + 1) / slidesData.length) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                // Update counter
+                slideCounter.textContent = `Slide ${index + 1} / ${slidesData.length}`;
+
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === slidesData.length - 1;
+                
+                if (index === slidesData.length - 1) {
+                    nextBtn.textContent = 'Finish';
+                } else {
+                    nextBtn.textContent = 'Next';
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slidesData.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            // Initial setup
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
