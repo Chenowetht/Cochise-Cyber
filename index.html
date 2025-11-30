@@ -3,91 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cochise College Cybersecurity Program</title>
+    <title>TJ Chenoweth's Courses Home Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
-        }
-        .hero-pattern {
-            background-image: radial-gradient(circle at top right, rgba(239, 68, 68, 0.1), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.1), transparent 40%);
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; /* slate-900 */ }
+        /* Subtle grid background pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, #1e293b 1px, transparent 1px),
+                              linear-gradient(to bottom, #1e293b 1px, transparent 1px);
+            background-size: 40px 40px;
         }
     </style>
 </head>
-<body class="text-gray-200 flex flex-col min-h-screen antialiased">
+<body class="text-gray-300 flex flex-col min-h-screen antialiased bg-slate-900 bg-grid-pattern">
 
-    <!-- Header -->
-    <header class="p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-white">Cochise College <span class="text-red-500">Cybersecurity</span></h1>
+    <!-- Navigation / Brand -->
+    <nav class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Shield Icon SVG -->
+                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span class="text-lg font-bold text-white tracking-tight hidden sm:inline">
+                    TJ Chenoweth's <span class="text-red-500">Courses Home Page</span>
+                </span>
+                <span class="text-lg font-bold text-white tracking-tight sm:hidden">
+                    TJ Chenoweth
+                </span>
+            </div>
+            
+            <!-- External Links -->
+            <div class="flex items-center gap-4 text-sm font-medium">
+                <a href="https://moodle.cochise.edu" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Moodle
+                </a>
+                <div class="h-4 w-px bg-slate-700"></div>
+                <a href="https://www.cochise.edu" target="_blank" class="text-slate-400 hover:text-white transition-colors">
+                    cochise.edu
+                </a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        <!-- Hero Section -->
-        <section class="hero-pattern py-20 sm:py-32">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight">
-                    Cochise College Cybersecurity Program <span class="text-red-500">🛡️</span>
-                </h2>
-                <p class="mt-4 text-lg sm:text-xl font-semibold text-red-400">Become a Digital Defender</p>
-                <p class="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-gray-300">
-                    Launch your career on the front lines of digital defense. Our program provides hands-on training, industry-relevant skills, and the knowledge you need to protect networks, systems, and data from cyber threats.
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+        
+        <!-- Welcome Header -->
+        <header class="mb-10 text-center sm:text-left">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">Student Portal</h1>
+            <p class="text-slate-400 text-lg">Access your course syllabi, video lectures, and NotebookLM resources below.</p>
+        </header>
+
+        <!-- Announcements Section -->
+        <section class="mb-12 bg-slate-800/50 border border-slate-700 rounded-lg overflow-hidden">
+            <div class="bg-red-900/20 border-b border-slate-700 p-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                </svg>
+                <h2 class="font-bold text-white">Latest Announcements</h2>
+            </div>
+            <div class="p-6 space-y-4">
+                <article class="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                    <div class="sm:w-32 flex-shrink-0">
+                        <span class="text-sm font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded">Nov 30</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-200">Final Project Rubrics Posted</h3>
+                        <p class="text-sm text-slate-400 mt-1">
+                            The requirements for the final network defense project have been uploaded to the CYB 201 page.
+                        </p>
+                    </div>
+                </article>
+                <article class="flex flex-col sm:flex-row gap-2 sm:gap-6 pt-4 border-t border-slate-700/50">
+                    <div class="sm:w-32 flex-shrink-0">
+                        <span class="text-sm font-mono text-slate-500 bg-slate-800 px-2 py-1 rounded">Nov 28</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-200">No Class - Thanksgiving Break</h3>
+                        <p class="text-sm text-slate-400 mt-1">
+                            Reminder that campus is closed Thursday and Friday.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Active Courses Header -->
+        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            Active Courses
+        </h2>
+        
+        <!-- Course Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- CYB 101 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 101</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Introduction to Cybersecurity</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    The course provides students with a knowledge of security concepts and with the skills required to react to security incidents. Topics include network security; compliance and operational security; threats and vulnerabilities; application, data, and host security; access control and identity management; and cryptography.
                 </p>
-                <div class="mt-10">
-                    <a href="#" class="bg-red-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-red-700 transition-transform transform hover:scale-105 duration-300 shadow-lg shadow-red-600/30">
-                        Apply Now
-                    </a>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
                 </div>
             </div>
-        </section>
 
-        <!-- Featured Course Section -->
-        <section class="py-16 sm:py-24 bg-gray-800/50">
-            <div class="container mx-auto px-4 text-center">
-                <div class="max-w-2xl mx-auto">
-                    <h3 class="text-3xl font-bold text-white">Featured Course</h3>
-                    <p class="mt-2 text-lg font-semibold text-red-400">CYB201: Cybersecurity for Networking</p>
-                    <p class="mt-4 text-gray-300">
-                        Dive deep into the world of network defense. This course provides the knowledge and toolsets necessary to implement full-scale network security plans using industry-standard tools.
-                    </p>
-                    <div class="mt-8">
-                        <a href="CYB201_syllabus.html" class="bg-gray-700 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-red-600 transition-colors duration-300">
-                            View Syllabus & Presentation
-                        </a>
-                    </div>
+            <!-- CYB 102 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 102</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Networking Foundations</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course is an introduction to networking and networking technologies that teaches students about networking protocols and technologies. Students will learn network analysis and utilize tools to observe and understand packets as they transition the network.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
                 </div>
             </div>
-        </section>
 
-        <!-- Ethical Commitment Section -->
-        <section class="py-16 sm:py-24 bg-gray-900">
-            <div class="container mx-auto px-4 text-center">
-                <div class="max-w-2xl mx-auto bg-gray-800 border border-gray-700 rounded-xl p-8">
-                    <h3 class="text-2xl sm:text-3xl font-bold text-white">Our Ethical Commitment</h3>
-                    <p class="mt-4 text-gray-400">
-                        All students are expected to operate under a strict ethical code. Please review our agreement before applying.
-                    </p>
-                    <div class="mt-8">
-                        <a href="white_hat_agreement.html" class="border border-red-500 text-red-400 font-semibold py-2 px-6 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                            View White Hat Agreement
-                        </a>
-                    </div>
+            <!-- CYB 103 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 103</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Basic Operating Systems</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course provides students with a general knowledge of desktop operating systems in Windows and Linux/Unix operating systems. Topics include operating system configuration, hardware, software, and security and system management.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
                 </div>
             </div>
-        </section>
+
+            <!-- CYB 110 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 110</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Intermediate Operating Systems</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course is designed to give students an in-depth understanding of cyber information systems providing them with skills in configuration management of Microsoft Windows Operating Systems and Linux or Unix Operating Systems. Skills will include secure configuration implementation and automation of system administration tasks.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 125 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 125</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Intro to Scripting for Cybersecurity</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course is an introduction to scripting concepts using common scripting languages in support of automation and auditing tasks. Students will learn debugging techniques and find solutions to problems using a common scripting language.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 201 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 201</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Cybersecurity for Networking</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course provides students with the knowledge and toolsets necessary to implement full-scale network security plans. Students will work with established network infrastructure, industry toolsets, and organizational guidance to secure the infrastructure and document findings.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 210 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 210</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Scripting for Cybersecurity</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course is an application of industry standard skills to build automated security pipelines leveraging interpreted programming languages. Students will work with real-world scenarios while creating applicable toolsets in languages including Python, PowerShell, and Go.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 220 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 220</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Digital Forensics and Incident Response</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course provides students with an understanding of intrusion detection methodologies, tools, and approaches to incident response. Students will be introduced to the incident response system and understand how digital forensics fits into the process of securing and investigating digital crimes.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 260 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 260</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Introduction to Cloud Technologies</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course provides students an introduction to the concepts of cloud computing and a clear understanding of modern cloud platforms and providers. Students will be exposed to cloud architecture and security configurations.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 275 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 275</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Applied Cyber Operations</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course provides students with the knowledge of and hands-on experience to leverage knowledge of industry security techniques, considerations of domestic and international law, and ethics, to aid in the development of a security penetrating testing plan.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CYB 290 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-red-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-red-400 bg-red-400/10 px-2 py-1 rounded border border-red-400/20">CYB 290</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Operational Cybersecurity</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    This course in Operational Cybersecurity is a capstone course that requires students to implement their knowledge, skills and abilities in Cybersecurity. This capstone course places cybersecurity students in a simulated corporate environment.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CIS 120 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-green-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-green-400 bg-green-400/10 px-2 py-1 rounded border border-green-400/20">CIS 120</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-green-400 transition-colors">Introduction to Information Systems</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    An introduction to digital basics, hardware, software, operating systems, local area networks, wide area networks, internet, web, email, digital media, basic programming, and the computer industry.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-green-600 text-white text-xs font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CLD 110 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-orange-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-orange-400 bg-orange-400/10 px-2 py-1 rounded border border-orange-400/20">CLD 110</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">AWS Cloud Foundations</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    Amazon Web Services (AWS) Cloud Foundations provides a detailed overview of cloud concepts, AWS core services, security, architecture, pricing, and support. It helps to prepare students for the AWS Certified Cloud Practitioner exam.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-orange-600 text-white text-xs font-bold hover:bg-orange-700 transition-colors shadow-lg shadow-orange-900/20">Enter Course</a>
+                </div>
+            </div>
+
+            <!-- CLD 120 -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-orange-500/50 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold font-mono text-orange-400 bg-orange-400/10 px-2 py-1 rounded border border-orange-400/20">CLD 120</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">AWS Cloud Architecting</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow">
+                    Amazon Web Services (AWS) fundamentals of building IT infrastructure on and for AWS. Focuses on how to optimize use of the AWS Cloud by understanding AWS services and best practices for the AWS Cloud and how they fit into cloud-based solutions.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-700 hover:text-white transition-colors">Syllabus</a>
+                    <a href="#" class="flex items-center justify-center gap-2 px-3 py-2 rounded bg-orange-600 text-white text-xs font-bold hover:bg-orange-700 transition-colors shadow-lg shadow-orange-900/20">Enter Course</a>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 mt-auto">
-        <div class="container mx-auto py-6 px-4 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 Cochise College. All Rights Reserved.</p>
+    <!-- Simple Footer -->
+    <footer class="border-t border-slate-800 mt-auto py-8">
+        <div class="container mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2025 Cochise College Cybersecurity Program.</p>
+            <a href="white_hat_agreement.html" class="text-red-500 hover:underline mt-2 inline-block">White Hat Agreement</a>
         </div>
     </footer>
 
