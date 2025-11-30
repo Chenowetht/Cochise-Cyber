@@ -1,1 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYB 102 Syllabus - Networking Foundations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .slide { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .slide.active { display: block; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom radio button styling */
+        input[type="radio"]:checked + div {
+            border-color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-300 min-h-screen flex flex-col">
 
+    <!-- Progress Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/95 border-b border-slate-700 shadow-lg">
+        <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">CYB 102</span>
+                <div class="hidden sm:block">
+                    <h1 class="text-white font-bold text-sm">Networking Foundations</h1>
+                    <p class="text-xs text-gray-500">Fall 2025</p>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="flex-grow mx-8 max-w-md hidden sm:flex flex-col gap-1">
+                <div class="flex justify-between text-[10px] text-gray-400 uppercase font-bold">
+                    <span>Start</span>
+                    <span>Finish</span>
+                </div>
+                <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-red-600 w-1/6 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <div class="text-xs font-mono text-red-400 border border-red-500/30 bg-red-500/10 px-3 py-1 rounded-full animate-pulse">
+                ⚠ CENSUS REQUIRED
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl flex-grow flex flex-col justify-center">
+
+        <!-- Slide 1: Course Overview -->
+        <div id="slide-1" class="slide active">
+            <div class="glass-panel p-8 rounded-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                
+                <h2 class="text-3xl font-extrabold text-white mb-6">Welcome to CYB 102</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-sm font-bold text-red-400 uppercase tracking-wider mb-2">Instructor</h3>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center text-xl">👨‍🏫</div>
+                            <div>
+                                <p class="text-white font-bold">Timothy Chenoweth</p>
+                                <p class="text-sm">Office: D112, Downtown Center</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400"><strong class="text-white">Email:</strong> Chenowetht@cochise.edu</p>
+                        <p class="text-sm text-gray-400"><strong class="text-white">Phone:</strong> 520-452-2632</p>
+                        <p class="text-sm text-gray-400 mt-2">Response time: Within 48 hours</p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                        <h3 class="text-sm font-bold text-red-400 uppercase tracking-wider mb-2">Course Description</h3>
+                        <p class="text-sm leading-relaxed">
+                            This course is an introduction to networking and the networking technologies that teaches students about networking protocols and technologies. Students will learn network analysis and utilization of tools to observe and understand packets as they transition the network.
+                        </p>
+                        <div class="mt-4 flex gap-2">
+                            <span class="text-xs bg-slate-700 text-white px-2 py-1 rounded">3 Credit Hours</span>
+                            <span class="text-xs bg-slate-700 text-white px-2 py-1 rounded">Fully Online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Materials & Tech -->
+        <div id="slide-2" class="slide">
+            <div class="glass-panel p-8 rounded-xl">
+                <h2 class="text-2xl font-bold text-white mb-6">Textbook & Requirements</h2>
+
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="w-full md:w-1/3 bg-white p-2 rounded-lg flex items-center justify-center">
+                        <div class="text-center text-slate-900">
+                            <p class="font-bold text-lg">Networking Fundamentals</p>
+                            <p class="text-sm">Gordon Davies</p>
+                            <p class="text-xs mt-2 text-red-600 font-bold">FREE on O'Reilly</p>
+                        </div>
+                    </div>
+                    <div class="flex-grow space-y-4">
+                        <a href="https://learning.oreilly.com/library/view/networking-fundamentals/9781838643508/" target="_blank" class="block bg-slate-800 hover:bg-slate-700 p-4 rounded-lg border border-slate-600 transition group">
+                            <h4 class="font-bold text-white group-hover:text-red-400">📖 Access Textbook Here</h4>
+                            <p class="text-sm text-gray-400">Click to open O'Reilly Library</p>
+                        </a>
+                        
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                            <h4 class="font-bold text-white mb-2">Technical Requirements</h4>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-gray-300">
+                                <li>Windows 10+ or macOS 10.6+ (No phones as primary device)</li>
+                                <li>Microphone and Webcam required</li>
+                                <li>Consistent high-speed internet</li>
+                                <li>8GB RAM / 120GB HD recommended</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Policies & Grading -->
+        <div id="slide-3" class="slide">
+            <div class="glass-panel p-8 rounded-xl">
+                <h2 class="text-2xl font-bold text-white mb-6">Policies & Grading</h2>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <!-- Grading Scale -->
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-3">Grading Breakdown</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between bg-slate-800 p-2 rounded">
+                                <span>Assignments (Labs/CTA)</span>
+                                <span class="font-bold text-white">40%</span>
+                            </div>
+                            <div class="flex justify-between bg-slate-800 p-2 rounded">
+                                <span>Weekly Quizzes</span>
+                                <span class="font-bold text-white">20%</span>
+                            </div>
+                            <div class="flex justify-between bg-slate-800 p-2 rounded">
+                                <span>Midterm & Final</span>
+                                <span class="font-bold text-white">20%</span>
+                            </div>
+                            <div class="flex justify-between bg-slate-800 p-2 rounded">
+                                <span>Discussions</span>
+                                <span class="font-bold text-white">10%</span>
+                            </div>
+                            <div class="flex justify-between bg-slate-800 p-2 rounded">
+                                <span>Attendance</span>
+                                <span class="font-bold text-white">10%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Policy (Important) -->
+                    <div class="bg-red-900/10 border border-red-500/30 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-red-400 mb-2">🤖 AI Policy (SAGE-AI)</h3>
+                        <p class="text-sm mb-3">
+                            You may use AI tools to brainstorm, clarify, and debug, but you <strong class="text-white">MUST disclose it</strong>.
+                        </p>
+                        <ul class="list-disc list-inside text-xs space-y-2 text-gray-300">
+                            <li><strong>Requirement:</strong> Attach an "AI Use Appendix" to any assignment using AI.</li>
+                            <li><strong>Prohibited:</strong> No AI on Quizzes or Exams.</li>
+                            <li><strong>Penalty:</strong> Failure to disclose = Grade of 0.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: INTERSPERSED KNOWLEDGE CHECK -->
+        <div id="slide-4" class="slide">
+            <div class="glass-panel p-8 rounded-xl max-w-2xl mx-auto border-t-4 border-yellow-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="text-3xl">✋</span>
+                    <h2 class="text-2xl font-bold text-white">Knowledge Check</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-6 text-lg">
+                    Before we view the assignment schedule, let's verify you understand the AI policy.
+                    <br><br>
+                    <strong>Scenario:</strong> You used ChatGPT to help debug a script for your lab assignment. What must you do before submitting?
+                </p>
+
+                <div class="space-y-3">
+                    <label class="block cursor-pointer group">
+                        <input type="radio" name="kc1" value="wrong" class="hidden" onchange="checkKC(this)">
+                        <div class="p-4 rounded-lg border border-slate-700 group-hover:bg-slate-800 transition">
+                            Nothing, debugging is always allowed.
+                        </div>
+                    </label>
+                    <label class="block cursor-pointer group">
+                        <input type="radio" name="kc1" value="correct" class="hidden" onchange="checkKC(this)">
+                        <div class="p-4 rounded-lg border border-slate-700 group-hover:bg-slate-800 transition">
+                            Submit an "AI Use Appendix" detailing the tool and prompt used.
+                        </div>
+                    </label>
+                    <label class="block cursor-pointer group">
+                        <input type="radio" name="kc1" value="wrong" class="hidden" onchange="checkKC(this)">
+                        <div class="p-4 rounded-lg border border-slate-700 group-hover:bg-slate-800 transition">
+                            Email the instructor for permission after submitting.
+                        </div>
+                    </label>
+                </div>
+
+                <div id="kc-feedback" class="mt-6 hidden p-3 rounded bg-red-900/50 text-red-200 text-sm font-bold text-center">
+                    Incorrect. Review the policy: You must ALWAYS disclose usage in an appendix.
+                </div>
+                
+                <div id="kc-success" class="mt-6 hidden p-3 rounded bg-green-900/50 text-green-200 text-sm font-bold text-center">
+                    Correct! You may now proceed.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Assignments List -->
+        <div id="slide-5" class="slide">
+            <div class="glass-panel p-6 rounded-xl h-[500px] overflow-y-auto custom-scrollbar">
+                <h2 class="text-2xl font-bold text-white mb-4 sticky top-0 bg-slate-900/95 py-2 z-10">Course Schedule & Assignments</h2>
+                <p class="text-sm text-gray-400 mb-4">Dates are subject to change. Check Moodle for official submission links.</p>
+
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-gray-400 text-sm border-b border-gray-700">
+                            <th class="py-2">Week</th>
+                            <th class="py-2">Topic</th>
+                            <th class="py-2">Key Assignments</th>
+                            <th class="py-2">Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <!-- Full 17-Week Schedule -->
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 1</td><td class="py-3">What is a Network</td><td class="py-3 text-white">Syllabus Quiz, CIA Triad</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 2</td><td class="py-3">Physical & Network Layer</td><td class="py-3 text-white">Packet Tracer Lab</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 3</td><td class="py-3">OSI & TCP Models</td><td class="py-3 text-white">Mapping OSI Written</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 4</td><td class="py-3">Data Link Layer</td><td class="py-3 text-white">Building a Switched Layer</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 5</td><td class="py-3">Switching & VLANs</td><td class="py-3 text-white">Configure VLANs & Trunking</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 6</td><td class="py-3">Network Layer</td><td class="py-3 text-white">Router on a Stick</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 7</td><td class="py-3">Transport Layer</td><td class="py-3 text-white">Exploring TCP and UDP</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800 bg-red-900/10"><td class="py-3 text-red-400 font-mono">Week 8</td><td class="py-3 font-bold text-white">MIDTERM</td><td class="py-3 text-white">Midterm Exam</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 9</td><td class="py-3">Understanding IPv4</td><td class="py-3 text-white">Subnetting Practice</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 10</td><td class="py-3">Understanding IPv6</td><td class="py-3 text-white">Configure IPv6 in Packet Tracer</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 11</td><td class="py-3">Network Services</td><td class="py-3 text-white">DHCP & DNS Packet Tracer</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 12</td><td class="py-3">WANs</td><td class="py-3 text-white">Site-to-Site IPsec</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 13</td><td class="py-3">Wireless Networking</td><td class="py-3 text-white">Configure Wireless Security</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 14</td><td class="py-3">Cloud & Virtualization</td><td class="py-3 text-white">IaaS vs SaaS Research</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 15</td><td class="py-3">Network Security</td><td class="py-3 text-white">IaaS vs SaaS Turn-in</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800"><td class="py-3 text-red-400 font-mono">Week 16</td><td class="py-3">Review</td><td class="py-3 text-white">SOHO Network Design</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                        <tr class="border-b border-gray-800 bg-red-900/10"><td class="py-3 text-red-400 font-mono">Week 17</td><td class="py-3 font-bold text-white">FINAL</td><td class="py-3 text-white">Final Exam</td><td class="py-3 text-gray-500 italic">TBD</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 6: Final Quiz Container -->
+        <div id="slide-6" class="slide">
+            <div id="final-quiz-wrapper">
+                <h2 class="text-3xl font-extrabold text-white text-center mb-8">Census Activity Quiz</h2>
+                <div class="glass-panel p-8 rounded-xl max-w-2xl mx-auto min-h-[400px] flex flex-col justify-center">
+                    
+                    <!-- Dynamic Question Area -->
+                    <div id="question-container" class="fade-in">
+                        <div class="mb-2 text-red-400 font-mono text-sm uppercase tracking-widest">Question <span id="q-num">1</span> of 5</div>
+                        <h3 id="q-text" class="text-xl font-bold text-white mb-6">Loading...</h3>
+                        
+                        <div id="options-container" class="space-y-3">
+                            <!-- Options injected by JS -->
+                        </div>
+
+                        <!-- Feedback Area -->
+                        <div id="quiz-feedback" class="mt-6 hidden p-4 rounded-lg text-center font-bold"></div>
+                        
+                        <!-- Next Button (Hidden until correct) -->
+                        <button id="next-q-btn" onclick="nextQuestion()" class="hidden w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-all">
+                            Next Question &rarr;
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CERTIFICATE (Hidden initially) -->
+            <div id="certificate-section" class="hidden text-center animate-fade-in mt-10">
+                <div class="glass-panel p-10 rounded-xl max-w-2xl mx-auto border-2 border-green-500/50 shadow-2xl shadow-green-900/20">
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-green-500 rounded-full p-3">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-2">You Passed!</h2>
+                    <p class="text-gray-300 mb-8">Enter your full name to generate your certificate.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto mb-8">
+                        <input type="text" id="studentName" placeholder="Full Legal Name" class="bg-slate-900 border border-slate-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-green-500 w-full">
+                        <button onclick="generateCertificate()" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
+                            Download Certificate
+                        </button>
+                    </div>
+                    <p class="text-xs text-red-400 font-bold uppercase">Important: Upload this file to <a href="https://moodle.cochise.edu" target="_blank" class="underline hover:text-red-300">moodle.cochise.edu</a>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="flex justify-between mt-8 max-w-4xl mx-auto w-full px-4">
+            <button id="prevBtn" onclick="changeSlide(-1)" class="px-6 py-3 rounded-lg bg-slate-800 text-white font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-700 transition">
+                &larr; Previous
+            </button>
+            <button id="nextBtn" onclick="changeSlide(1)" class="px-6 py-3 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 transition shadow-lg shadow-red-900/30">
+                Next Section &rarr;
+            </button>
+        </div>
+        
+        <!-- Hidden Canvas -->
+        <canvas id="certCanvas" width="800" height="600" class="hidden"></canvas>
+
+    </main>
+
+    <footer class="mt-auto py-8 text-center text-gray-500 text-sm">
+        &copy; 2025 Cochise College Cybersecurity
+    </footer>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+        let knowledgeCheckPassed = false;
+
+        // Data for the Final Quiz (5 Questions)
+        const finalQuestions = [
+            {
+                text: "When is the Census Activity (this quiz and certificate) due?",
+                options: ["End of the semester", "August 25th by 8:00 AM", "Whenever I finish it"],
+                correct: 1 // Index of correct answer
+            },
+            {
+                text: "What is the policy regarding Late Work?",
+                options: ["Accepted anytime for full credit", "Not accepted without prior approval", "Accepted with a 50% penalty"],
+                correct: 1
+            },
+            {
+                text: "If I use AI (like ChatGPT) for an assignment, what is REQUIRED?",
+                options: ["Nothing, it's allowed", "An 'AI Use Appendix' disclosing tools & prompts", "Just a citation in the bibliography"],
+                correct: 1
+            },
+            {
+                text: "Where must all assignments be submitted?",
+                options: ["Via Email to the instructor", "Dropped off at the office", "Uploaded to Moodle"],
+                correct: 2
+            },
+            {
+                text: "What happens if I fail to complete this Census Activity?",
+                options: ["I will be dropped from the course", "I get a warning email", "Nothing happens"],
+                correct: 0
+            }
+        ];
+
+        let currentQuizIndex = 0;
+
+        function updateUI() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            // Show current
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            
+            // Update Progress Bar
+            const percentage = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+
+            // Button States
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Logic to BLOCK navigation if Knowledge Check not passed
+            if (currentSlide === 4 && !knowledgeCheckPassed) {
+                nextBtn.style.opacity = '0.5';
+                nextBtn.style.cursor = 'not-allowed';
+                nextBtn.disabled = true;
+                nextBtn.textContent = 'Complete Check First';
+            } 
+            // Logic for Final Quiz Slide
+            else if (currentSlide === totalSlides) {
+                nextBtn.style.display = 'none'; // Hide global next button during quiz
+                loadQuizQuestion(); // Ensure quiz is rendered
+            } 
+            else {
+                nextBtn.style.display = 'block';
+                nextBtn.style.opacity = '1';
+                nextBtn.style.cursor = 'pointer';
+                nextBtn.disabled = false;
+                nextBtn.textContent = 'Next Section \u2192';
+            }
+        }
+
+        function changeSlide(direction) {
+            // Prevent moving forward from Knowledge Check if not passed
+            if (currentSlide === 4 && direction === 1 && !knowledgeCheckPassed) return;
+
+            if (currentSlide + direction > 0 && currentSlide + direction <= totalSlides) {
+                currentSlide += direction;
+                updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // --- Knowledge Check Logic (Slide 4) ---
+        function checkKC(radio) {
+            const feedback = document.getElementById('kc-feedback');
+            const success = document.getElementById('kc-success');
+            
+            if (radio.value === 'correct') {
+                knowledgeCheckPassed = true;
+                feedback.classList.add('hidden');
+                success.classList.remove('hidden');
+                updateUI(); // Re-enable next button
+            } else {
+                knowledgeCheckPassed = false;
+                success.classList.add('hidden');
+                feedback.classList.remove('hidden');
+                updateUI(); // Keep disabled
+            }
+        }
+
+        // --- Final Quiz Logic (Slide 6) ---
+        function loadQuizQuestion() {
+            const q = finalQuestions[currentQuizIndex];
+            document.getElementById('q-num').textContent = currentQuizIndex + 1;
+            document.getElementById('q-text').textContent = q.text;
+            
+            const optionsDiv = document.getElementById('options-container');
+            optionsDiv.innerHTML = ''; // Clear previous
+
+            // Reset UI states
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('next-q-btn').classList.add('hidden');
+
+            q.options.forEach((opt, index) => {
+                const label = document.createElement('label');
+                label.className = "block cursor-pointer group";
+                label.innerHTML = `
+                    <input type="radio" name="finalq" value="${index}" class="hidden" onchange="checkFinalAnswer(this)">
+                    <div class="p-4 rounded-lg border border-slate-700 group-hover:bg-slate-800 transition">${opt}</div>
+                `;
+                optionsDiv.appendChild(label);
+            });
+        }
+
+        function checkFinalAnswer(radio) {
+            const selected = parseInt(radio.value);
+            const correct = finalQuestions[currentQuizIndex].correct;
+            const feedback = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('next-q-btn');
+            const inputs = document.querySelectorAll('input[name="finalq"]');
+
+            if (selected === correct) {
+                // Correct styling
+                feedback.textContent = "Correct! Great job.";
+                feedback.className = "mt-6 p-4 rounded-lg text-center font-bold bg-green-900/50 text-green-300 block";
+                nextBtn.classList.remove('hidden');
+                
+                // Disable inputs so they can't change it
+                inputs.forEach(i => i.disabled = true);
+                
+                // If last question, change button text
+                if (currentQuizIndex === finalQuestions.length - 1) {
+                    nextBtn.textContent = "Finish & Get Certificate";
+                } else {
+                    nextBtn.textContent = "Next Question \u2192";
+                }
+            } else {
+                // Incorrect styling
+                feedback.textContent = "Incorrect. Please try again.";
+                feedback.className = "mt-6 p-4 rounded-lg text-center font-bold bg-red-900/50 text-red-300 block";
+                nextBtn.classList.add('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuizIndex < finalQuestions.length - 1) {
+                currentQuizIndex++;
+                loadQuizQuestion();
+            } else {
+                // Quiz Complete
+                document.getElementById('final-quiz-wrapper').style.display = 'none';
+                document.getElementById('certificate-section').classList.remove('hidden');
+            }
+        }
+
+        // --- Certificate Logic ---
+        function generateCertificate() {
+            const name = document.getElementById('studentName').value;
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            const date = new Date().toLocaleDateString();
+
+            // Background & Border
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, 800, 600);
+            ctx.strokeStyle = "#b91c1c"; 
+            ctx.lineWidth = 20;
+            ctx.strokeRect(20, 20, 760, 560);
+            ctx.strokeStyle = "#1e293b"; 
+            ctx.lineWidth = 5;
+            ctx.strokeRect(40, 40, 720, 520);
+
+            // Text
+            ctx.fillStyle = "#1e293b";
+            ctx.font = "bold 40px 'Arial'";
+            ctx.textAlign = "center";
+            ctx.fillText("COCHISE COLLEGE", 400, 100);
+            
+            ctx.fillStyle = "#dc2626";
+            ctx.font = "bold 30px 'Arial'";
+            ctx.fillText("CYB 102: Networking Foundations", 400, 150);
+
+            ctx.fillStyle = "#000000";
+            ctx.font = "40px 'Georgia'";
+            ctx.fillText("Certificate of Syllabus Review", 400, 240);
+
+            ctx.font = "italic 20px 'Arial'";
+            ctx.fillStyle = "#555555";
+            ctx.fillText("This certifies that", 400, 290);
+
+            ctx.font = "bold underline 50px 'Arial'";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(name, 400, 360);
+
+            ctx.font = "20px 'Arial'";
+            ctx.fillStyle = "#333333";
+            ctx.fillText("Has reviewed the policies, grading, and requirements", 400, 420);
+            ctx.fillText("for the Fall 2025 Semester.", 400, 450);
+
+            // Signature Line
+            ctx.beginPath();
+            ctx.moveTo(150, 520);
+            ctx.lineTo(350, 520);
+            ctx.stroke();
+
+            ctx.font = "16px 'Arial'";
+            ctx.fillText("Date: " + date, 250, 545);
+            ctx.fillText("Instructor: T. Chenoweth", 600, 520);
+
+            // Download
+            const link = document.createElement('a');
+            link.download = `CYB102_Census_Cert_${name.replace(/\s+/g, '_')}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
