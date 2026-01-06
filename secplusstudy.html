@@ -18,7 +18,6 @@
             overflow: hidden;
         }
         .session-card:hover { transform: translateY(-4px); }
-        .session-card.expanded { grid-row: span 2; }
         
         .details-pane {
             max-height: 0;
@@ -60,7 +59,7 @@
                 </div>
             </div>
             <div class="hidden md:block">
-                <input type="text" id="studySearch" placeholder="Search materials..." class="px-4 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
+                <input type="text" id="studySearch" placeholder="Search materials..." class="px-4 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 text-white">
             </div>
         </div>
     </nav>
@@ -69,12 +68,12 @@
         
         <header class="mb-12 border-l-4 border-blue-600 pl-6">
             <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Curriculum Library</h2>
-            <p class="text-slate-500 mt-2">Click a session tile to expand study guides, flashcards, and technical notes.</p>
+            <p class="text-slate-500 mt-2">Click a session tile to expand topic details and access the study guide.</p>
         </header>
 
         <!-- Session Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="materialsGrid">
-            <!-- Sessions will be injected here for maintainability -->
+            <!-- Sessions are injected via JavaScript -->
         </div>
 
     </main>
@@ -134,10 +133,7 @@
                     
                     <div class="details-pane">
                         <p class="text-xs text-slate-500 leading-relaxed mb-4">${s.desc}</p>
-                        <div class="space-y-2">
-                            <a href="session${s.id}.html" class="block text-center py-2 bg-blue-600 text-white rounded-lg text-[10px] font-bold hover:bg-blue-700 transition-colors uppercase tracking-widest">Open Study Guide</a>
-                            <a href="https://example.com/flashcards/week${Math.ceil(s.id/2)}" target="_blank" class="block text-center py-2 bg-slate-100 text-slate-700 rounded-lg text-[10px] font-bold hover:bg-slate-200 transition-colors uppercase tracking-widest">Weekly Flashcards</a>
-                        </div>
+                        <a href="session${s.id}.html" class="block text-center py-2 bg-blue-600 text-white rounded-lg text-[10px] font-bold hover:bg-blue-700 transition-colors uppercase tracking-widest shadow-lg shadow-blue-500/20">Open Study Guide</a>
                     </div>
                 `;
                 
