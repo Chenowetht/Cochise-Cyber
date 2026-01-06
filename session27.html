@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 27: Mock Exam Testing Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        
+        .quiz-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .quiz-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+        }
+
+        .option-btn {
+            background: #334155;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: #475569;
+            border-color: #64748b;
+        }
+        .option-btn.selected {
+            background: #1e3a8a;
+            border-color: #3b82f6;
+        }
+
+        .timer-warning { color: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <!-- HEADER -->
+    <header class="max-w-6xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div>
+            <h1 class="text-4xl font-black font-poppins text-white uppercase tracking-tight">Exam Testing Center</h1>
+            <p class="text-slate-400 font-medium">SY0-701 Mastery • Mock Exam Session A</p>
+        </div>
+        <div class="flex gap-2">
+            <span class="bg-blue-600/20 text-blue-400 text-[10px] font-bold px-3 py-1.5 rounded-full border border-blue-600/30">D1 - D5 INCLUDED</span>
+            <span class="bg-emerald-600/20 text-emerald-400 text-[10px] font-bold px-3 py-1.5 rounded-full border border-emerald-600/30">RANDOMIZED BANK</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto">
+        
+        <!-- SELECTION VIEW -->
+        <div id="selection-view" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Mode 1 -->
+            <div class="quiz-card p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-600/20">
+                    <i class="fa-solid fa-bolt text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-bold font-poppins mb-2 text-white">Quick Sprint</h2>
+                <p class="text-slate-400 text-sm mb-6 leading-relaxed">A fast-paced review of core concepts. Perfect for daily maintenance.</p>
+                <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-8">10 Questions • 5 Minutes</div>
+                <button onclick="startQuiz(10, 300)" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold transition-colors">Start Sprint</button>
+            </div>
+
+            <!-- Mode 2 -->
+            <div class="quiz-card p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-600/20">
+                    <i class="fa-solid fa-brain text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-bold font-poppins mb-2 text-white">Domain Drill</h2>
+                <p class="text-slate-400 text-sm mb-6 leading-relaxed">A balanced assessment covering all exam domains with moderate pacing.</p>
+                <div class="text-xs font-bold text-purple-400 uppercase tracking-widest mb-8">30 Questions • 20 Minutes</div>
+                <button onclick="startQuiz(30, 1200)" class="w-full bg-purple-600 hover:bg-purple-500 py-4 rounded-xl font-bold transition-colors">Start Drill</button>
+            </div>
+
+            <!-- Mode 3 -->
+            <div class="quiz-card p-8 rounded-3xl border-2 border-emerald-500/30 flex flex-col items-center text-center relative overflow-hidden">
+                <div class="absolute top-4 right-4 bg-emerald-500 text-white text-[9px] font-black px-2 py-1 rounded">MOST REALISTIC</div>
+                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-emerald-600/20">
+                    <i class="fa-solid fa-file-shield text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-bold font-poppins mb-2 text-white">Full Simulation</h2>
+                <p class="text-slate-400 text-sm mb-6 leading-relaxed">Simulates the actual SY0-701 environment including high-pressure timing.</p>
+                <div class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-8">70 Questions • 60 Minutes</div>
+                <button onclick="startQuiz(70, 3600)" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-xl font-bold transition-colors">Start Mock Exam</button>
+            </div>
+        </div>
+
+        <!-- QUIZ INTERFACE -->
+        <div id="quiz-view" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex justify-between items-center mb-8 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                    <div>
+                        <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Current Question</div>
+                        <div id="q-counter" class="text-2xl font-black text-white font-poppins">01 / 10</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Time Remaining</div>
+                        <div id="timer" class="text-2xl font-black text-white font-mono tracking-tighter">00:00</div>
+                    </div>
+                </div>
+
+                <!-- Question Area -->
+                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-2xl mb-8">
+                    <p id="q-text" class="text-slate-900 text-2xl font-bold font-poppins mb-10 leading-tight">Question text goes here?</p>
+                    <div id="options-container" class="grid grid-cols-1 gap-4">
+                        <!-- Options via JS -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <button onclick="exitQuiz()" class="text-slate-500 hover:text-white font-bold text-sm uppercase tracking-widest transition-colors">Quit Session</button>
+                    <button id="next-btn" onclick="nextQuestion()" disabled class="bg-blue-600 disabled:opacity-30 text-white font-black px-10 py-4 rounded-xl shadow-xl shadow-blue-600/20 transition-all">NEXT QUESTION</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS VIEW -->
+        <div id="results-view" class="hidden text-center max-w-2xl mx-auto py-20">
+            <h2 class="text-5xl font-black font-poppins mb-4">Assessment Complete</h2>
+            <p class="text-slate-400 mb-12">Your performance has been calculated based on the selected mode.</p>
+            
+            <div class="bg-slate-800 p-12 rounded-full w-64 h-64 mx-auto flex flex-col items-center justify-center border-8 border-blue-600 mb-12 shadow-2xl shadow-blue-600/10">
+                <div id="final-score" class="text-6xl font-black font-poppins">0</div>
+                <div class="text-xs font-bold text-slate-500 uppercase">Correct</div>
+            </div>
+
+            <div id="result-badge" class="inline-block px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest mb-10">
+                PASSED
+            </div>
+
+            <p id="result-feedback" class="text-lg text-slate-400 italic mb-12 px-6">You have a strong grasp of the material. Focus on D4 (Operations) to secure your certification.</p>
+
+            <button onclick="location.reload()" class="bg-white text-slate-900 font-black px-12 py-4 rounded-xl hover:bg-slate-200 transition-all uppercase tracking-widest">Back to Testing Center</button>
+        </div>
+
+    </main>
+
+    <script>
+        const questionBank = [
+            // Domain 1: General Security Concepts
+            { q: "Which core principle ensures that data is only accessible to authorized users?", options: ["Integrity", "Confidentiality", "Availability", "Non-repudiation"], a: 1, d: "D1" },
+            { q: "Which control category is a security policy considered?", options: ["Technical", "Managerial", "Operational", "Physical"], a: 1, d: "D1" },
+            { q: "An organization implements a secondary firewall because the primary one lacks deep packet inspection. This is a:", options: ["Preventive Control", "Detective Control", "Compensating Control", "Deterrent Control"], a: 2, d: "D1" },
+            { q: "Ensuring that a sender cannot deny sending a message is called:", options: ["Authentication", "Authorization", "Non-repudiation", "Integrity"], a: 2, d: "D1" },
+            { q: "Zero Trust architecture is primarily based on which assumption?", options: ["The perimeter is secure", "Internal traffic is trusted", "The network is already compromised", "Encryption is optional"], a: 2, d: "D1" },
+            
+            // Domain 2: Threats, Vulnerabilities, and Mitigations
+            { q: "Which threat actor is characterized by being well-funded and state-sponsored?", options: ["Hacktivist", "Script Kiddie", "Nation State", "Shadow IT"], a: 2, d: "D2" },
+            { q: "Which malware type modifies the OS kernel to hide its presence?", options: ["Rootkit", "Worm", "Trojan", "Spyware"], a: 0, d: "D2" },
+            { q: "Redirecting a user to a fraudulent website by poisoning the DNS cache is:", options: ["Phishing", "Pharming", "Vishing", "Smishing"], a: 1, d: "D2" },
+            { q: "A person follows an authorized employee through a secure door without their knowledge. This is:", options: ["Tailgating", "Piggybacking", "Shoulder Surfing", "Whaling"], a: 0, d: "D2" },
+            { q: "Which attack uses a precomputed list of hashes to crack passwords?", options: ["Brute Force", "Dictionary", "Rainbow Table", "Credential Stuffing"], a: 2, d: "D2" },
+            { q: "A 'Zero-Day' exploit refers to a vulnerability that:", options: ["Is 0 days old", "Is unknown to the vendor", "Affects 0 users", "Is fixed instantly"], a: 1, d: "D2" },
+            { q: "Which injection attack targets backend databases via web input fields?", options: ["XSS", "SQLi", "CSRF", "Directory Traversal"], a: 1, d: "D2" },
+            { q: "What type of social engineering targets high-level executives specifically?", options: ["Spear Phishing", "Vishing", "Whaling", "Watering Hole"], a: 2, d: "D2" },
+
+            // Domain 3: Security Architecture
+            { q: "Which RAID level provides striping with parity and requires at least 3 disks?", options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"], a: 2, d: "D3" },
+            { q: "In the Shared Responsibility Model, who is responsible for 'Security IN the Cloud'?", options: ["The Provider", "The Customer", "The ISP", "Third-party Auditors"], a: 1, d: "D3" },
+            { q: "Which cloud service model provides the highest level of customer control?", options: ["SaaS", "PaaS", "IaaS", "FaaS"], a: 2, d: "D3" },
+            { q: "What physical security control is designed to prevent tailgating?", options: ["Faraday Cage", "Mantrap", "Bollard", "Proximity Card"], a: 1, d: "D3" },
+            { q: "Which cryptographic algorithm uses different keys for encryption and decryption?", options: ["AES", "DES", "RSA", "Blowfish"], a: 2, d: "D3" },
+            { q: "What is the role of a Certificate Authority (CA) in PKI?", options: ["Encrypting data", "Generating private keys", "Issuing and signing certificates", "Hashing passwords"], a: 2, d: "D3" },
+            { q: "Which protocol is used to secure web traffic between a client and a server?", options: ["HTTP", "SSH", "TLS", "SFTP"], a: 2, d: "D3" },
+            { q: "A Screened Subnet is also commonly known as a:", options: ["VLAN", "DMZ", "Intranet", "VPN"], a: 1, d: "D3" },
+            
+            // Domain 4: Security Operations
+            { q: "Which tool centralizes log aggregation, correlation, and alerting?", options: ["SIEM", "SOAR", "IPS", "DLP"], a: 0, d: "D4" },
+            { q: "What is the first step in the Incident Response Lifecycle?", options: ["Identification", "Containment", "Preparation", "Eradication"], a: 2, d: "D4" },
+            { q: "In digital forensics, what is the most volatile piece of evidence?", options: ["Hard Drive", "RAM", "CPU Cache", "Network Logs"], a: 2, d: "D4" },
+            { q: "Which automated response tool can execute playbooks to block an attack?", options: ["SIEM", "SOAR", "NGFW", "CASB"], a: 1, d: "D4" },
+            { q: "What is a 'False Positive' in vulnerability scanning?", options: ["A missed vulnerability", "A correctly identified vulnerability", "An incorrectly identified vulnerability", "A system crash"], a: 2, d: "D4" },
+            { q: "Which phase of IR focuses on removing the root cause of an incident?", options: ["Containment", "Eradication", "Recovery", "Lessons Learned"], a: 1, d: "D4" },
+            { q: "What protocol analyzer is used for full packet capture and deep-dive analysis?", options: ["NetFlow", "Wireshark", "SNMP", "IPFIX"], a: 1, d: "D4" },
+            { q: "What is the purpose of 'Chain of Custody' in forensics?", options: ["Encryption", "Proving evidence integrity", "Speeding up analysis", "Legal immunity"], a: 1, d: "D4" },
+
+            // Domain 5: Security Program Management
+            { q: "Which formula is used to calculate Annual Loss Expectancy (ALE)?", options: ["SLE / ARO", "SLE x ARO", "Asset Value x EF", "SLE + ARO"], a: 1, d: "D5" },
+            { q: "Buying insurance for a potential risk is an example of:", options: ["Mitigation", "Transference", "Acceptance", "Avoidance"], a: 1, d: "D5" },
+            { q: "What regulation grants EU citizens the 'Right to be Forgotten'?", options: ["HIPAA", "SOX", "GDPR", "PCI DSS"], a: 2, d: "D5" },
+            { q: "A non-binding agreement that describes a common goal between parties is a:", options: ["SLA", "MOU", "MOA", "ISA"], a: 1, d: "D5" },
+            { q: "Which SOC 2 report covers control effectiveness over a 6-month period?", options: ["Type I", "Type II", "Type III", "Point-in-Time"], a: 1, d: "D5" },
+            { q: "Risk that remains after controls are implemented is called:", options: ["Inherent Risk", "Total Risk", "Residual Risk", "Managed Risk"], a: 2, d: "D5" },
+            { q: "Which document defines technical requirements for connecting two networks?", options: ["SLA", "NDA", "ISA", "MOU"], a: 2, d: "D5" },
+            { q: "What is the primary goal of Business Impact Analysis (BIA)?", options: ["Risk transference", "Identify critical functions", "Patch management", "Employee firing"], a: 1, d: "D5" },
+            
+            // Adding more to bank for variety
+            { q: "What is the port for LDAPS?", options: ["389", "636", "443", "22"], a: 1, d: "D4" },
+            { q: "Which protocol is TCP-based and encrypts the entire payload for AAA?", options: ["RADIUS", "TACACS+", "Kerberos", "SAML"], a: 1, d: "D4" },
+            { q: "A detective physical control would be:", options: ["Fencing", "CCTV", "Mantraps", "Bollards"], a: 1, d: "D3" },
+            { q: "Which type of hypervisor runs directly on hardware?", options: ["Type 1", "Type 2", "Container", "VDI"], a: 0, d: "D3" },
+            { q: "Which state of data is protected by TLS?", options: ["At rest", "In transit", "In use", "Archived"], a: 1, d: "D5" },
+            { q: "The percentage of asset value lost in a single incident is:", options: ["ALE", "ARO", "Exposure Factor", "SLE"], a: 2, d: "D5" },
+            { q: "What does 'S' in SNMPv3 primarily provide over v2?", options: ["Speed", "Security", "Scalability", "Simplicity"], a: 1, d: "D4" }
+        ];
+
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let timer = null;
+        let timeLeft = 0;
+        let selectedIdx = null;
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function startQuiz(count, seconds) {
+            // Select questions
+            const fullBank = [...questionBank];
+            shuffle(fullBank);
+            currentQuestions = fullBank.slice(0, count);
+            
+            // Set state
+            currentIndex = 0;
+            score = 0;
+            timeLeft = seconds;
+            selectedIdx = null;
+
+            // UI Transitions
+            document.getElementById('selection-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+
+            loadQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            if(timer) clearInterval(timer);
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    showResults();
+                }
+            }, 1000);
+            updateTimerUI();
+        }
+
+        function updateTimerUI() {
+            const min = Math.floor(timeLeft / 60);
+            const sec = timeLeft % 60;
+            const timerEl = document.getElementById('timer');
+            timerEl.innerText = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            
+            if(timeLeft < 60) {
+                timerEl.classList.add('timer-warning');
+            } else {
+                timerEl.classList.remove('timer-warning');
+            }
+        }
+
+        function loadQuestion() {
+            const q = currentQuestions[currentIndex];
+            selectedIdx = null;
+            document.getElementById('q-counter').innerText = `${String(currentIndex + 1).padStart(2, '0')} / ${String(currentQuestions.length).padStart(2, '0')}`;
+            document.getElementById('q-text').innerText = q.q;
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn text-left p-6 rounded-2xl text-slate-800 font-medium text-lg flex items-center gap-4';
+                btn.innerHTML = `<span class="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">${String.fromCharCode(65 + idx)}</span> ${opt}`;
+                btn.onclick = () => selectOption(idx);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('next-btn').innerText = (currentIndex === currentQuestions.length - 1) ? 'FINISH EXAM' : 'NEXT QUESTION';
+        }
+
+        function selectOption(idx) {
+            selectedIdx = idx;
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach((b, i) => {
+                b.classList.toggle('selected', i === idx);
+            });
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if(selectedIdx === currentQuestions[currentIndex].a) {
+                score++;
+            }
+
+            currentIndex++;
+            if(currentIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timer);
+            document.getElementById('quiz-view').classList.add('hidden');
+            document.getElementById('results-view').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            
+            const pct = (score / currentQuestions.length) * 100;
+            const badge = document.getElementById('result-badge');
+            const feedback = document.getElementById('result-feedback');
+
+            if(pct >= 85) {
+                badge.className = "inline-block px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest mb-10 bg-emerald-500 text-white";
+                badge.innerText = "PASSING: MASTER";
+                feedback.innerText = "Exceptional performance. You are demonstrating certification-ready knowledge across all domains.";
+            } else if(pct >= 70) {
+                badge.className = "inline-block px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest mb-10 bg-blue-500 text-white";
+                badge.innerText = "PASSING: READY";
+                feedback.innerText = "Good job. You are currently in the passing range. Review your weak areas to ensure success on exam day.";
+            } else {
+                badge.className = "inline-block px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest mb-10 bg-red-500 text-white";
+                badge.innerText = "BELOW THRESHOLD";
+                feedback.innerText = "Keep practicing. Focus on building your core vocabulary and revisiting the Session slides for Domains 3 and 4.";
+            }
+        }
+
+        function exitQuiz() {
+            if(confirm("Are you sure you want to quit? Your progress will not be saved.")) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
