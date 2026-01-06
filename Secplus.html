@@ -3,343 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SY0-701: Comprehensive Study Roadmap</title>
+    <title>SY0-701: Security+ Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #0F172A; }
-        .chart-container { position: relative; width: 100%; max-width: 650px; margin: 0 auto; height: 350px; max-height: 400px; }
-        .syllabus-table tr:hover { background-color: #F1F5F9; transition: background 0.2s; }
-        .sticky-nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px); background-color: rgba(30, 58, 138, 0.9); }
-        .domain-badge { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-        .d1 { background-color: #DBEAFE; color: #1E40AF; }
-        .d2 { background-color: #FEE2E2; color: #991B1B; }
-        .d3 { background-color: #F3E8FF; color: #6B21A8; }
-        .d4 { background-color: #CCFBF1; color: #115E59; }
-        .d5 { background-color: #FEF3C7; color: #92400E; }
-        .meta { background-color: #1E293B; color: #FFFFFF; }
-        .table-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
-        .table-scroll::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #0F172A; scroll-behavior: smooth; }
+        
+        .chart-container { position: relative; width: 100%; height: 320px; }
+        
+        .sticky-nav { 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            backdrop-filter: blur(12px); 
+            background-color: rgba(15, 23, 42, 0.9); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .domain-badge { 
+            font-size: 0.65rem; 
+            font-weight: 800; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        /* Domain Colors Matched to Chart */
+        .d1 { background-color: #DBEAFE; color: #1E40AF; } /* General Security */
+        .d2 { background-color: #FEF3C7; color: #92400E; } /* Threats */
+        .d3 { background-color: #F3E8FF; color: #6B21A8; } /* Architecture */
+        .d4 { background-color: #CCFBF1; color: #115E59; } /* Operations */
+        .d5 { background-color: #FEE2E2; color: #991B1B; } /* Management */
+        .meta { background-color: #E2E8F0; color: #475569; }
+
+        .table-row-hidden { display: none; }
+        
+        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease; }
+        
+        /* Protocol Grid */
+        .protocol-tag {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="sticky-nav text-white px-6 py-4 shadow-xl border-b border-blue-400/20">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-xl font-extrabold tracking-tight">COMPTIA SECURITY+ (SY0-701)</h1>
-                <p class="text-xs font-medium text-blue-200">Session Roadmap: Jan 19 — Apr 29, 2026</p>
+    <!-- Header & Navigation -->
+    <nav class="sticky-nav text-white px-6 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl shadow-lg shadow-blue-500/20">S+</div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight leading-none">Security+ Prep (SY0-701)</h1>
+                    <p class="text-[10px] font-medium text-blue-400 uppercase tracking-widest mt-1">Mon & Wed (4:15 - 4:45 PM) • Jan 19 — Apr 30</p>
+                </div>
             </div>
-            <div class="flex gap-4 text-[10px] uppercase font-bold tracking-widest">
-                <span class="bg-blue-600/50 px-3 py-1 rounded">28 Sessions</span>
-                <span class="bg-amber-500/50 px-3 py-1 rounded">3 Checkpoints</span>
-                <span class="bg-emerald-600/50 px-3 py-1 rounded">2 Final Mocks</span>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden lg:flex gap-4 items-center mr-4 text-xs font-bold uppercase tracking-wider text-slate-400 border-r border-slate-700 pr-6">
+                    <a href="secplusstudy.html" class="hover:text-blue-400 transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Study Materials
+                    </a>
+                </div>
+                <div class="hidden md:flex gap-2 text-[10px] uppercase font-bold tracking-wider">
+                    <span class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full">28 Sessions</span>
+                    <span class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-amber-400">3 Checkpoints</span>
+                </div>
+                <a href="#syllabus" class="bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 rounded-lg text-xs font-bold shadow-lg shadow-blue-600/20">View Schedule</a>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-12 space-y-16">
+    <main class="max-w-7xl mx-auto px-4 py-8 md:py-12 space-y-12">
 
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Instructor's Strategy</h2>
-                <p class="text-slate-600 leading-relaxed mb-6">
-                    This syllabus is built on **Evidence-Based Learning**. We prioritize Domain 4 (Operations) and Domain 2 (Threats) 
-                    which represent 50% of your exam score. Every session incorporates a "Group Discussion Question" to 
-                    trigger active retrieval and peer teaching.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-start gap-3 bg-blue-50 p-4 rounded-xl">
-                        <span class="text-blue-600 text-2xl font-bold">01</span>
-                        <div>
-                            <p class="font-bold text-slate-800 text-sm">Active Recall</p>
-                            <p class="text-xs text-slate-500">Every session starts with a 5-minute quiz on previous topics.</p>
-                        </div>
+        <!-- Executive Dashboard -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-900">Instructor's Strategy</h2>
+                        <p class="text-sm text-slate-500 mt-1">High-Impact 30-minute power sessions for the Spring 2026 cohort.</p>
                     </div>
-                    <div class="flex items-start gap-3 bg-cyan-50 p-4 rounded-xl">
-                        <span class="text-cyan-600 text-2xl font-bold">02</span>
-                        <div>
-                            <p class="font-bold text-slate-800 text-sm">Rapid Review</p>
-                            <p class="text-xs text-slate-500">Post-Spring Break session includes a 15-minute bridge recap.</p>
-                        </div>
+                    <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-2xl text-xs font-bold border border-blue-100">
+                        Methodology: Active Retrieval
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 card-hover">
+                        <div class="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold text-sm mb-4">01</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-1">Retrieval Quizzes</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">First 10 minutes of every class dedicated to brain-dumping previous session concepts.</p>
+                    </div>
+                    <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 card-hover">
+                        <div class="w-8 h-8 bg-cyan-600 text-white rounded-lg flex items-center justify-center font-bold text-sm mb-4">02</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-1">Bridge Sessions</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">Specific "Bridge" dates to reconnect knowledge across long breaks like Spring Break.</p>
+                    </div>
+                    <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 card-hover">
+                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center font-bold text-sm mb-4">03</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-1">PBQ Simulations</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">Hands-on firewall rules, log analysis, and certificate configuration practice.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h3 class="text-center font-bold text-slate-700 mb-4 text-sm uppercase tracking-wider">Exam Domain Weighting</h3>
-                <div class="chart-container">
-                    <canvas id="domainWeightChart"></canvas>
+            <div class="lg:col-span-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm uppercase tracking-widest mb-4">Exam Weighting</h3>
+                    <div class="chart-container">
+                        <canvas id="domainWeightChart"></canvas>
+                    </div>
                 </div>
+                <p class="text-[10px] text-slate-400 mt-4 italic text-center leading-tight">SY0-701 Focus: Operations & Architecture take center stage.</p>
             </div>
         </section>
 
-        <section class="space-y-8">
-            <h2 class="text-2xl font-extrabold text-slate-900 border-l-4 border-blue-600 pl-4 uppercase tracking-tight">Full Session Calendar (Mon/Wed)</h2>
-            
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div class="table-scroll overflow-x-auto">
-                    <table class="w-full text-left syllabus-table">
-                        <thead class="bg-slate-900 text-slate-300 text-[10px] font-bold uppercase">
-                            <tr>
-                                <th class="p-4 w-32">Week / Date</th>
-                                <th class="p-4 w-24">Domain</th>
-                                <th class="p-4">Session Title & Key Concepts</th>
-                                <th class="p-4 w-1/4">Group Discussion Question</th>
+        <!-- Syllabus Search & Table -->
+        <section id="syllabus" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div class="border-l-4 border-blue-600 pl-4">
+                    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Full Session Roadmap</h2>
+                    <p class="text-sm text-slate-500">Mondays & Wednesdays • 4:15 PM – 4:45 PM</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-2">
+                    <input type="text" id="syllabusSearch" placeholder="Search topics..." class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64 shadow-sm">
+                    <select id="domainFilter" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer">
+                        <option value="all">All Domains</option>
+                        <option value="d1">D1: Concepts</option>
+                        <option value="d2">D2: Threats</option>
+                        <option value="d3">D3: Architecture</option>
+                        <option value="d4">D4: Operations</option>
+                        <option value="d5">D5: Management</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="custom-scrollbar overflow-x-auto">
+                    <table class="w-full text-left border-collapse" id="syllabusTable">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                                <th class="p-5 w-32">Week / Date</th>
+                                <th class="p-5 w-24">Domain</th>
+                                <th class="p-5">Core Topic & Concepts</th>
+                                <th class="p-5 w-1/4 hidden md:table-cell">Discussion / Active Recall</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-sm">
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W1: Jan 19</td>
-                                <td class="p-4"><span class="domain-badge meta">Intro</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-blue-700">Kickoff: Evidence-Based Study</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Active Recall, Spaced Repetition, PQ4R.</div>
+                            <!-- Week 1 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="meta">
+                                <td class="p-5 font-bold text-slate-700">W1: Jan 19</td>
+                                <td class="p-5"><span class="domain-badge meta">Intro</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-blue-700">The Sec+ Learning Engine</div>
+                                    <div class="text-xs text-slate-500 mt-1 italic">PQ4R Method, Flashcard Mechanics, Spaced Repetition Logic.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Why is re-reading notes the least effective way to study?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell italic">"Why is active recall harder but more effective than passive reading?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W1: Jan 21</td>
-                                <td class="p-4"><span class="domain-badge d1">D1</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Security Fundamentals</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">CIA Triad, AAA, Non-Repudiation, Zero Trust.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d1">
+                                <td class="p-5 font-bold text-slate-700">W1: Jan 21</td>
+                                <td class="p-5"><span class="domain-badge d1">D1</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Security Foundations</div>
+                                    <div class="text-xs text-slate-500 mt-1">CIA Triad, AAA, Non-Repudiation, Zero Trust Pillars.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"In a modern remote workforce, is the CIA Triad still sufficient?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Scenario: Which pillar is broken if a user denies sending an email?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W2: Jan 26</td>
-                                <td class="p-4"><span class="domain-badge d1">D1</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Control Types & Management</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Technical, Managerial, Operational, Physical.</div>
+                            <!-- Week 2 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d1">
+                                <td class="p-5 font-bold text-slate-700">W2: Jan 26</td>
+                                <td class="p-5"><span class="domain-badge d1">D1</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Security Control Categories</div>
+                                    <div class="text-xs text-slate-500 mt-1">Technical, Managerial, Operational, Physical, Compensating.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Give an example of a technical control that serves as a deterrent."</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Name a technical control that acts as a detective measure."</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W2: Jan 28</td>
-                                <td class="p-4"><span class="domain-badge d2">D2</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Threat Actors & Vectors</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Nation States, Script Kiddies, Insider Threats.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d2">
+                                <td class="p-5 font-bold text-slate-700">W2: Jan 28</td>
+                                <td class="p-5"><span class="domain-badge d2">D2</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Threat Actors & Motivations</div>
+                                    <div class="text-xs text-slate-500 mt-1">Nation States, Hacktivists, Insider Threats, Shadow IT Risks.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Is an accidental insider threat more dangerous than a malicious one?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Is an accidental insider more dangerous than a nation-state?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W3: Feb 2</td>
-                                <td class="p-4"><span class="domain-badge d2">D2</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Malware & Social Engineering</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Ransomware, Phishing, Tailgating.</div>
+                            <!-- Week 3 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d2">
+                                <td class="p-5 font-bold text-slate-700">W3: Feb 2</td>
+                                <td class="p-5"><span class="domain-badge d2">D2</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Malware & Attacks</div>
+                                    <div class="text-xs text-slate-500 mt-1">Ransomware, Rootkits, Trojans, Spyware.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"How do attackers leverage 'scarcity' and 'authority'?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"How does a rootkit hide from the OS?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W3: Feb 4</td>
-                                <td class="p-4"><span class="domain-badge d2">D2</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Vulnerabilities & Hardening</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Zero-day, Legacy systems, OS Hardening.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d2">
+                                <td class="p-5 font-bold text-slate-700">W3: Feb 4</td>
+                                <td class="p-5"><span class="domain-badge d2">D2</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Social Engineering Tactics</div>
+                                    <div class="text-xs text-slate-500 mt-1">Phishing, Vishing, Smishing, Tailgating, Shoulder Surfing.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Why do companies often fail to patch known vulnerabilities for months?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Identify a psychological trigger in a phishing email."</td>
                             </tr>
-                            <tr class="bg-blue-50">
-                                <td class="p-4 font-bold text-blue-800">W4: Feb 9</td>
-                                <td class="p-4"><span class="domain-badge d1">D1/2</span></td>
-                                <td class="p-4 font-bold text-blue-900 underline">Checkpoint 1: Concept Mastery Test</td>
-                                <td class="p-4 text-xs text-blue-700">Deep dive into Domains 1 & 2 gap analysis.</td>
+                            <!-- Week 4 -->
+                            <tr class="bg-blue-50/50" data-domain="all">
+                                <td class="p-5 font-bold text-blue-800">W4: Feb 9</td>
+                                <td class="p-5"><span class="domain-badge d1">D1/D2</span></td>
+                                <td class="p-5 font-bold text-blue-900 border-l-4 border-blue-500 pl-4">Checkpoint 1: Fundamental Mastery</td>
+                                <td class="p-5 text-xs text-blue-700 hidden md:table-cell font-medium">Reviewing Domains 1 & 2 gaps.</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W4: Feb 11</td>
-                                <td class="p-4"><span class="domain-badge d3">D3</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Security Architecture: Principles</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Secure by Design, Defense in Depth, Fail-safe.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d2">
+                                <td class="p-5 font-bold text-slate-700">W4: Feb 11</td>
+                                <td class="p-5"><span class="domain-badge d2">D2</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Application & Network Attacks</div>
+                                    <div class="text-xs text-slate-500 mt-1">SQL Injection, XSS, On-path attacks, DDoS.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Does 'Defense in Depth' still matter with Zero Trust?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Explain the 'on-path' attack mechanism."</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W5: Feb 16</td>
-                                <td class="p-4"><span class="domain-badge d3">D3</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Network Security Design</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Segmentation, DMZ, Air-gapping.</div>
+                            <!-- Week 5 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d3">
+                                <td class="p-5 font-bold text-slate-700">W5: Feb 16</td>
+                                <td class="p-5"><span class="domain-badge d3">D3</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Security Architecture Principles</div>
+                                    <div class="text-xs text-slate-500 mt-1">Secure by Design, Fail-safe, Defense in Depth.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Why is East-West traffic now as important as North-South?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Does Zero Trust replace Defense in Depth?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W5: Feb 18</td>
-                                <td class="p-4"><span class="domain-badge d3">D3</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Cloud & Virtualization</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">SaaS/PaaS/IaaS, Containers, Serverless.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d3">
+                                <td class="p-5 font-bold text-slate-700">W5: Feb 18</td>
+                                <td class="p-5"><span class="domain-badge d3">D3</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Cryptographic Concepts</div>
+                                    <div class="text-xs text-slate-500 mt-1">Symmetric vs Asymmetric, Hashing, Digital Signatures.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Who owns security in a SaaS model vs IaaS?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Why is hashing one-way only?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W6: Feb 23</td>
-                                <td class="p-4"><span class="domain-badge d3">D3</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Identity & Access Control</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">MFA, SAML, OIDC, RBAC vs ABAC.</div>
+                            <!-- Week 6 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d3">
+                                <td class="p-5 font-bold text-slate-700">W6: Feb 23</td>
+                                <td class="p-5"><span class="domain-badge d3">D3</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">PKI & Certificates</div>
+                                    <div class="text-xs text-slate-500 mt-1">CA, RA, CRL, OCSP, Certificate formats.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Is SMS-based MFA still considered secure for enterprise?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"What happens when a root CA is compromised?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W6: Feb 25</td>
-                                <td class="p-4"><span class="domain-badge d3">D3</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Resilience & Recovery</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">HA, Load Balancing, RAID, UPS.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d3">
+                                <td class="p-5 font-bold text-slate-700">W6: Feb 25</td>
+                                <td class="p-5"><span class="domain-badge d3">D3</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Network Security Design</div>
+                                    <div class="text-xs text-slate-500 mt-1">Segmentation, DMZ, Air-gapping, East-West Traffic.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Distinguish between High Availability and Disaster Recovery."</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Why isolate East-West traffic in a data center?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W7: Mar 2</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Security Operations: Tools</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">SIEM, SOAR, EDR, XDR, Honeypots.</div>
+                            <!-- Week 7 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d4">
+                                <td class="p-5 font-bold text-slate-700">W7: Mar 2</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">IAM: Identity & Access</div>
+                                    <div class="text-xs text-slate-500 mt-1">MFA, Biometrics, SSO, Federation.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"How does XDR differ from standard EDR?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Identify an inherentance biometric factor."</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W7: Mar 4</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Logging & Monitoring</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">SNMP, Netflow, Syslog, Log aggregation.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d4">
+                                <td class="p-5 font-bold text-slate-700">W7: Mar 4</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Authentication Protocols</div>
+                                    <div class="text-xs text-slate-500 mt-1">RADIUS, TACACS+, SAML, OIDC, OAuth.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"What is the risk of logging 'too much' data?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"SAML vs OAuth: Which handles Authorization?"</td>
                             </tr>
-                            <tr class="bg-amber-50">
+                            <!-- Week 8 Spring Break -->
+                            <tr class="bg-amber-50" data-domain="meta">
                                 <td class="p-8 text-center" colspan="4">
-                                    <div class="text-amber-800 font-extrabold text-lg uppercase tracking-widest">🌴 March 9 — March 15: Spring Break 🌴</div>
+                                    <div class="text-amber-800 font-extrabold text-xs uppercase tracking-widest">🌴 March 9 — March 15: Spring Break (No Sessions) 🌴</div>
                                 </td>
                             </tr>
-                            <tr class="bg-cyan-50 border-l-4 border-cyan-500">
-                                <td class="p-4 font-bold text-cyan-800">W9: Mar 16</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
+                            <!-- Week 9 BRIDGE -->
+                            <tr class="bg-cyan-50/50" data-domain="d4">
+                                <td class="p-5 font-bold text-cyan-800">W9: Mar 16</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded font-black">BRIDGE</span>
-                                        <div class="font-bold text-slate-800 uppercase text-xs">Incident Response Lifecycle</div>
+                                        <span class="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-tighter">BRIDGE SESSION</span>
                                     </div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Preparation, Containment, Eradication.</div>
+                                    <div class="font-bold text-slate-800">IR Lifecycle Recap</div>
+                                    <div class="text-xs text-slate-500 mt-1 italic">Preparation, Identification, Containment.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Recall: Differences between Symmetric and Asymmetric crypto?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell italic">"Recall: What's the difference between Symmetric and Asymmetric?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W9: Mar 18</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Vulnerability Management</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Scanning vs Pentesting, CVSS scoring.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d4">
+                                <td class="p-5 font-bold text-slate-700">W9: Mar 18</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">SecOps Tools: SIEM & SOAR</div>
+                                    <div class="text-xs text-slate-500 mt-1">Log aggregation, Playbooks, Automation.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Why is a scan not a substitute for a pentest?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"How does SOAR reduce MTTR?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W10: Mar 23</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Infrastructure Monitoring</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Network flows, Protocol analyzers.</div>
+                            <!-- Week 10 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d4">
+                                <td class="p-5 font-bold text-slate-700">W10: Mar 23</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Vulnerability Management</div>
+                                    <div class="text-xs text-slate-500 mt-1">Scanning, Pentesting, CVSS Scoring.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Explain 'Baseline' and why it matters for detection."</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Why is CVSS 9.0 an urgent priority?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W10: Mar 25</td>
-                                <td class="p-4"><span class="domain-badge d4">D4</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Automation & Orchestration</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Playbooks, Runbooks, IaC.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d4">
+                                <td class="p-5 font-bold text-slate-700">W10: Mar 25</td>
+                                <td class="p-5"><span class="domain-badge d4">D4</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Digital Forensics</div>
+                                    <div class="text-xs text-slate-500 mt-1">Order of Volatility, Chain of Custody.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"How does automation improve MTTR?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"What do you capture first: CPU Cache or Hard Drive?"</td>
                             </tr>
-                            <tr class="bg-blue-50">
-                                <td class="p-4 font-bold text-blue-800">W11: Mar 30</td>
-                                <td class="p-4"><span class="domain-badge d3/4">D3/4</span></td>
-                                <td class="p-4 font-bold text-blue-900 underline">Checkpoint 2: Architecture Review</td>
-                                <td class="p-4 text-xs text-blue-700">Practice focusing on Networking and SIEM logs.</td>
+                            <!-- Week 11 Checkpoint -->
+                            <tr class="bg-blue-50/50" data-domain="all">
+                                <td class="p-5 font-bold text-blue-800">W11: Mar 30</td>
+                                <td class="p-5"><span class="domain-badge d3">D3/D4</span></td>
+                                <td class="p-5 font-bold text-blue-900 border-l-4 border-blue-500 pl-4">Checkpoint 2: Architecture & Ops Review</td>
+                                <td class="p-5 text-xs text-blue-700 hidden md:table-cell font-medium">Networking & Monitoring Deep Dive.</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W11: Apr 1</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Security Program Mgmt: Risk</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Risk Appetite, Register, SLE/ALE.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d5">
+                                <td class="p-5 font-bold text-slate-700">W11: Apr 1</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Risk Management Strategies</div>
+                                    <div class="text-xs text-slate-500 mt-1">Acceptance, Avoidance, Transference, Mitigation.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Compare Risk Transference vs Mitigation."</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Explain insurance as risk transference."</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W12: Apr 6</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Governance & Frameworks</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">NIST CSF, ISO 27001, SOC 2.</div>
+                            <!-- Week 12 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d5">
+                                <td class="p-5 font-bold text-slate-700">W12: Apr 6</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Governance & Frameworks</div>
+                                    <div class="text-xs text-slate-500 mt-1">NIST CSF, ISO 27001, SOC 2.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"How does a framework help a startup scale?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"How does a framework help a startup?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W12: Apr 8</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Privacy & Data Protection</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">PII, PHI, Data Classification, DLP.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d5">
+                                <td class="p-5 font-bold text-slate-700">W12: Apr 8</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Privacy & Data Compliance</div>
+                                    <div class="text-xs text-slate-500 mt-1">PII, PHI, GDPR, Data Classification.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Is all PII also considered Sensitive Personal Info?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Is an IP address considered PII?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W13: Apr 13</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Audit & Assessment</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Internal vs External Audits.</div>
+                            <!-- Week 13 -->
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d5">
+                                <td class="p-5 font-bold text-slate-700">W13: Apr 13</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Audit & Assessment</div>
+                                    <div class="text-xs text-slate-500 mt-1">Internal vs External, Compliance Reports.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Why should an auditor remain independent?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Why must auditors remain independent?"</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W13: Apr 15</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800">Third-Party Risk Mgmt</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Supply chain, Vendors, SLAs.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="d5">
+                                <td class="p-5 font-bold text-slate-700">W13: Apr 15</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">Supply Chain Risk</div>
+                                    <div class="text-xs text-slate-500 mt-1">Vendors, SLAs, MOU/MOA.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600">"Identify a risk in using open-source libraries."</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"Risk of open-source libraries?"</td>
                             </tr>
-                            <tr class="bg-blue-50">
-                                <td class="p-4 font-bold text-blue-800">W14: Apr 20</td>
-                                <td class="p-4"><span class="domain-badge d5">D5</span></td>
-                                <td class="p-4 font-bold text-blue-900 underline">Checkpoint 3: Governance Mastery</td>
-                                <td class="p-4 text-xs text-blue-700">Full review of D5 and Risk simulations.</td>
+                            <!-- Week 14 -->
+                            <tr class="bg-blue-50/50" data-domain="all">
+                                <td class="p-5 font-bold text-blue-800">W14: Apr 20</td>
+                                <td class="p-5"><span class="domain-badge d5">D5</span></td>
+                                <td class="p-5 font-bold text-blue-900 border-l-4 border-blue-500 pl-4">Checkpoint 3: Governance Mastery</td>
+                                <td class="p-5 text-xs text-blue-700 hidden md:table-cell font-medium">Risk simulations and policy review.</td>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-bold text-slate-700">W14: Apr 22</td>
-                                <td class="p-4"><span class="domain-badge meta">Prep</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-slate-800 text-lg">Exam Readiness & PBQs</div>
-                                    <div class="text-xs text-slate-500 mt-1 italic">Performance-Based Questions.</div>
+                            <tr class="hover:bg-slate-50 transition-colors" data-domain="meta">
+                                <td class="p-5 font-bold text-slate-700">W14: Apr 22</td>
+                                <td class="p-5"><span class="domain-badge meta">Prep</span></td>
+                                <td class="p-5">
+                                    <div class="font-bold text-slate-800 text-base">PBQ Performance Workshop</div>
+                                    <div class="text-xs text-slate-500 mt-1">Solving interactive exam questions.</div>
                                 </td>
-                                <td class="p-4 text-xs text-slate-600 font-bold">"What is your strategy for flagging difficult questions?"</td>
+                                <td class="p-5 text-xs text-slate-600 hidden md:table-cell">"What is your strategy for flagging?"</td>
                             </tr>
-                            <tr class="bg-emerald-900 text-white">
-                                <td class="p-4 font-bold">W15: Apr 27</td>
-                                <td class="p-4"><span class="bg-emerald-700 px-2 py-1 rounded text-[10px]">FINAL</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-emerald-400">Full Practice Exam A (90 Min)</div>
-                                    <div class="text-xs opacity-70">Simulation of actual SY0-701 conditions.</div>
-                                </td>
-                                <td class="p-4 text-xs opacity-80">"Identify your weakest domain for final 48-hour focus."</td>
+                            <!-- Week 15 FINAL -->
+                            <tr class="bg-slate-900 text-white" data-domain="meta">
+                                <td class="p-5 font-bold">W15: Apr 27</td>
+                                <td class="p-5"><span class="bg-emerald-600 text-[10px] px-2 py-1 rounded font-bold">EXAM</span></td>
+                                <td class="p-5 font-bold text-emerald-400">Final Mock Exam A</td>
+                                <td class="p-5 text-xs text-slate-400 hidden md:table-cell italic">Full simulation review.</td>
                             </tr>
-                            <tr class="bg-emerald-950 text-white">
-                                <td class="p-4 font-bold">W15: Apr 29</td>
-                                <td class="p-4"><span class="bg-emerald-800 px-2 py-1 rounded text-[10px]">PASS</span></td>
-                                <td class="p-4">
-                                    <div class="font-bold text-emerald-300">Final Practice Exam B</div>
-                                    <div class="text-xs opacity-70 italic">Final review and confidence building.</div>
-                                </td>
-                                <td class="p-4 text-xs opacity-80 font-black">"YOU ARE READY."</td>
+                            <tr class="bg-slate-900 text-white" data-domain="meta">
+                                <td class="p-5 font-bold">W15: Apr 29</td>
+                                <td class="p-5"><span class="bg-emerald-600 text-[10px] px-2 py-1 rounded font-bold">PASS</span></td>
+                                <td class="p-5 font-bold text-emerald-400">Final Mock Exam B & Logistics</td>
+                                <td class="p-5 text-xs text-slate-400 hidden md:table-cell italic">You are ready for the test!</td>
                             </tr>
                         </tbody>
                     </table>
@@ -347,77 +432,142 @@
             </div>
         </section>
 
-        <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-            <h2 class="text-xl font-bold text-slate-800 mb-6 text-center">Session Allocation Density</h2>
-            <div class="chart-container">
-                <canvas id="sessionIntensityChart"></canvas>
+        <!-- Stats and Pacing -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-6 text-center text-sm uppercase">Intensity by Domain</h3>
+                <div class="chart-container">
+                    <canvas id="sessionIntensityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-6 text-sm uppercase">Quick-Reference Memory Bank</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="protocol-tag"><span>SSH</span><span class="font-mono text-blue-600 font-bold">22</span></div>
+                    <div class="protocol-tag"><span>DNS</span><span class="font-mono text-blue-600 font-bold">53</span></div>
+                    <div class="protocol-tag"><span>HTTPS</span><span class="font-mono text-blue-600 font-bold">443</span></div>
+                    <div class="protocol-tag"><span>LDAPS</span><span class="font-mono text-blue-600 font-bold">636</span></div>
+                    <div class="protocol-tag"><span>IMAPS</span><span class="font-mono text-blue-600 font-bold">993</span></div>
+                    <div class="protocol-tag"><span>SNMP</span><span class="font-mono text-blue-600 font-bold">161</span></div>
+                    <div class="protocol-tag"><span>RADIUS</span><span class="font-mono text-blue-600 font-bold">1812</span></div>
+                    <div class="protocol-tag"><span>RDP</span><span class="font-mono text-blue-600 font-bold">3389</span></div>
+                </div>
+                <div class="mt-8 p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3">
+                    <span class="text-xl">💡</span>
+                    <p class="text-xs text-amber-800 leading-relaxed">
+                        <strong>Pro Tip:</strong> These 30-minute sessions move fast. Review your <a href="secplusstudy.html" class="underline font-bold">study materials</a> BEFORE each session.
+                    </p>
+                </div>
             </div>
         </section>
+
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 px-6 text-center border-t border-slate-800">
-        <p class="text-sm font-semibold tracking-wide">SY0-701 CURRICULUM • SPRING 2026 COHORT • MON/WED SCHEDULE</p>
+    <footer class="bg-slate-950 text-slate-500 py-16 px-6 text-center border-t border-slate-900 mt-20">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <div class="text-2xl font-black text-white tracking-tighter mb-6">COMPTIA SECURITY+ <span class="text-blue-500">SY0-701</span></div>
+            <p class="text-sm max-w-lg mx-auto italic">Full Monday & Wednesday Schedule restored for the IT Security Dept.</p>
+        </div>
     </footer>
 
     <script>
-        const wrap = (label) => {
-            if (label.length <= 16) return label;
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = "";
-            words.forEach(word => {
-                if ((currentLine + word).length > 16) {
-                    lines.push(currentLine.trim());
-                    currentLine = word + " ";
-                } else {
-                    currentLine += word + " ";
-                }
-            });
-            lines.push(currentLine.trim());
-            return lines;
+        window.onload = function() {
+            initCharts();
+            initSearch();
         };
 
-        const weightCtx = document.getElementById('domainWeightChart').getContext('2d');
-        new Chart(weightCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ["General Security (12%)", "Threats/Vulns (22%)", "Architecture (18%)", "Operations (28%)", "Management (20%)"].map(wrap),
-                datasets: [{
-                    data: [12, 22, 18, 28, 20],
-                    backgroundColor: ['#2563EB', '#F59E0B', '#6B21A8', '#06B6D4', '#EF4444'],
-                    borderWidth: 0,
-                    hoverOffset: 20
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
-                }
-            }
-        });
+        function initSearch() {
+            const searchInput = document.getElementById('syllabusSearch');
+            const domainFilter = document.getElementById('domainFilter');
+            const tableRows = document.querySelectorAll('#syllabusTable tbody tr');
 
-        const intensityCtx = document.getElementById('sessionIntensityChart').getContext('2d');
-        new Chart(intensityCtx, {
-            type: 'bar',
-            data: {
-                labels: ["D1: Concept", "D2: Threats", "D3: Arch", "D4: Ops", "D5: Mgmt", "Practice"].map(wrap),
-                datasets: [{
-                    label: 'Sessions',
-                    data: [3, 4, 6, 7, 5, 3],
-                    backgroundColor: '#2563EB',
-                    borderRadius: 6
-                }]
-            },
-            options: {
+            const filterTable = () => {
+                const query = searchInput.value.toLowerCase();
+                const domain = domainFilter.value;
+
+                tableRows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    const rowDomain = row.getAttribute('data-domain');
+                    const matchesQuery = text.includes(query);
+                    const matchesDomain = domain === 'all' || rowDomain.includes(domain);
+
+                    if (matchesQuery && matchesDomain) {
+                        row.classList.remove('table-row-hidden');
+                    } else {
+                        row.classList.add('table-row-hidden');
+                    }
+                });
+            };
+
+            searchInput.addEventListener('input', filterTable);
+            domainFilter.addEventListener('change', filterTable);
+        }
+
+        function initCharts() {
+            const wrap = (label) => {
+                if (label.length <= 14) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let line = "";
+                words.forEach(w => {
+                    if ((line + w).length > 14) { lines.push(line.trim()); line = w + " "; }
+                    else { line += w + " "; }
+                });
+                lines.push(line.trim());
+                return lines;
+            };
+
+            const sharedOptions = {
+                responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#F1F5F9' } },
-                    x: { grid: { display: false } }
-                },
                 plugins: { legend: { display: false } }
-            }
-        });
+            };
+
+            const weightCtx = document.getElementById('domainWeightChart').getContext('2d');
+            new Chart(weightCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["D1: 12%", "D2: 22%", "D3: 18%", "D4: 28%", "D5: 20%"],
+                    datasets: [{
+                        data: [12, 22, 18, 28, 20],
+                        backgroundColor: ['#2563EB', '#F59E0B', '#6B21A8', '#06B6D4', '#EF4444'],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    ...sharedOptions,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 15, font: { size: 9, weight: 'bold' } } }
+                    }
+                }
+            });
+
+            const intensityCtx = document.getElementById('sessionIntensityChart').getContext('2d');
+            new Chart(intensityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ["Concepts", "Threats", "Arch", "Ops", "Mgmt", "Practice"].map(wrap),
+                    datasets: [{
+                        label: 'Sessions',
+                        data: [3, 5, 5, 8, 4, 3],
+                        backgroundColor: '#2563EB',
+                        borderRadius: 8,
+                        maxBarThickness: 30
+                    }]
+                },
+                options: {
+                    ...sharedOptions,
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false }, border: { display: false } },
+                        x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9, weight: '600' } } }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
