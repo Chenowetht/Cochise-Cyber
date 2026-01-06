@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sec+ Common Ports Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .flashcard-container { perspective: 1000px; width: 100%; max-width: 500px; height: 300px; margin: 2rem auto; }
+        .flashcard { 
+            width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; 
+            cursor: pointer; position: relative; 
+        }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;
+            border-radius: 1.5rem; border: 2px solid #10b981; text-align: center;
+        }
+        .card-front { background: #1e293b; color: #fff; font-size: 4rem; font-weight: 800; font-family: 'Poppins'; }
+        .card-back { background: #10b981; color: #fff; transform: rotateY(180deg); font-size: 2rem; font-weight: 700; }
+        .set-btn { transition: all 0.2s; border: 1px solid #334155; }
+        .set-btn.active { background-color: #10b981; border-color: #34d399; color: white; }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-4xl mx-auto text-center">
+        <a href="secplusstudy.html" class="inline-flex items-center gap-2 text-emerald-400 font-bold mb-8 hover:text-emerald-300 transition-colors">
+            <i class="fa-solid fa-arrow-left"></i> Back to Materials Hub
+        </a>
+        <h1 class="text-4xl md:text-6xl font-black font-poppins mb-4 tracking-tight">PORT COMMAND CENTER</h1>
+        <p class="text-slate-400 text-lg mb-12">Master the protocols and their associated port numbers required for SY0-701.</p>
+
+        <!-- Set Selection -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12" id="set-selector">
+            <!-- Buttons injected by JS -->
+        </div>
+
+        <!-- Flashcard View -->
+        <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 shadow-2xl">
+            <div id="set-label" class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-4">SET 1: 1 - 20</div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="card" onclick="this.classList.toggle('is-flipped')">
+                    <div class="card-face card-front" id="card-q">20/21</div>
+                    <div class="card-face card-back" id="card-a">FTP</div>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center gap-8 mt-8">
+                <button onclick="prevCard()" class="w-12 h-12 rounded-full bg-slate-700 hover:bg-emerald-600 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div id="card-counter" class="font-bold text-slate-300 min-w-[80px]">1 / 20</div>
+                <button onclick="nextCard()" class="w-12 h-12 rounded-full bg-slate-700 hover:bg-emerald-600 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ports = [
+            {q: "20 / 21", a: "FTP (File Transfer Protocol)"},
+            {q: "22", a: "SSH / SFTP / SCP"},
+            {q: "23", a: "Telnet"},
+            {q: "25", a: "SMTP (Relay)"},
+            {q: "49", a: "TACACS+"},
+            {q: "53", a: "DNS (TCP/UDP)"},
+            {q: "67 / 68", a: "DHCP (UDP)"},
+            {q: "69", a: "TFTP (UDP)"},
+            {q: "80", a: "HTTP"},
+            {q: "88", a: "Kerberos"},
+            {q: "110", a: "POP3"},
+            {q: "123", a: "NTP (UDP)"},
+            {q: "135", a: "RPC/epmap"},
+            {q: "137-139", a: "NetBIOS"},
+            {q: "143", a: "IMAP"},
+            {q: "161 / 162", a: "SNMP (UDP)"},
+            {q: "389", a: "LDAP"},
+            {q: "443", a: "HTTPS (TLS)"},
+            {q: "445", a: "SMB / CIFS"},
+            {q: "465", a: "SMTPS"},
+            {q: "514", a: "Syslog (UDP)"},
+            {q: "587", a: "SMTP (Submission)"},
+            {q: "636", a: "LDAPS"},
+            {q: "993", a: "IMAPS"},
+            {q: "995", a: "POP3S"},
+            {q: "1433", a: "SQL Server"},
+            {q: "1521", a: "Oracle SQL"},
+            {q: "1701", a: "L2TP"},
+            {q: "1723", a: "PPTP"},
+            {q: "1812 / 1813", a: "RADIUS"},
+            {q: "2049", a: "NFS"},
+            {q: "2427 / 2727", a: "MGCP (VoIP)"},
+            {q: "3306", a: "MySQL"},
+            {q: "3389", a: "RDP"},
+            {q: "5060 / 5061", a: "SIP (VoIP)"},
+            {q: "6514", a: "Syslog (TLS)"},
+            {q: "8080", a: "HTTP Proxy"},
+            {q: "9100", a: "RAW Printing"}
+        ];
+
+        let currentSet = 0;
+        let currentIndex = 0;
+        const itemsPerSet = 20;
+
+        function init() {
+            const selector = document.getElementById('set-selector');
+            const setCount = Math.ceil(ports.length / itemsPerSet);
+            
+            for(let i=0; i < setCount; i++) {
+                const btn = document.createElement('button');
+                btn.className = `set-btn px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-600/20 ${i === 0 ? 'active' : ''}`;
+                btn.innerText = `Set ${i + 1}`;
+                btn.onclick = () => selectSet(i);
+                selector.appendChild(btn);
+            }
+            updateCard();
+        }
+
+        function selectSet(idx) {
+            currentSet = idx;
+            currentIndex = 0;
+            document.querySelectorAll('.set-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === idx);
+            });
+            document.getElementById('set-label').innerText = `SET ${idx + 1}: ${idx * itemsPerSet + 1} - ${Math.min((idx + 1) * itemsPerSet, ports.length)}`;
+            updateCard();
+        }
+
+        function updateCard() {
+            const card = document.getElementById('card');
+            card.classList.remove('is-flipped');
+            const globalIdx = (currentSet * itemsPerSet) + currentIndex;
+            
+            setTimeout(() => {
+                document.getElementById('card-q').innerText = ports[globalIdx].q;
+                document.getElementById('card-a').innerText = ports[globalIdx].a;
+                document.getElementById('card-counter').innerText = `${currentIndex + 1} / ${Math.min(itemsPerSet, ports.length - (currentSet * itemsPerSet))}`;
+            }, 150);
+        }
+
+        function nextCard() {
+            const limit = Math.min(itemsPerSet, ports.length - (currentSet * itemsPerSet));
+            currentIndex = (currentIndex + 1) % limit;
+            updateCard();
+        }
+
+        function prevCard() {
+            const limit = Math.min(itemsPerSet, ports.length - (currentSet * itemsPerSet));
+            currentIndex = (currentIndex - 1 + limit) % limit;
+            updateCard();
+        }
+
+        init();
+    </script>
+</body>
+</html>
