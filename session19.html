@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 19: Automation & Orchestration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. CORE RESET & BASE STYLING */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 2. SLIDE DECK WRAPPER */
+        .presentation-wrap {
+            width: 100%;
+            max-width: 1280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #1e293b;
+            position: relative;
+            overflow: hidden;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            padding: 60px;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .slide-container.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* 3. SLIDE NAVIGATION CONTROLS */
+        .presentation-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid #334155;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn {
+            background: #2563eb;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover { background: #3b82f6; }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .slide-indicator {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* 4. TYPOGRAPHY & TITLES */
+        .slide-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            border-left: 6px solid #2563eb;
+            padding-left: 20px;
+        }
+
+        h1 { font-family: 'Poppins', sans-serif; font-size: 80px; color: #fff; margin: 0; }
+        h3 { font-family: 'Poppins', sans-serif; font-size: 32px; color: #38bdf8; margin-bottom: 15px; }
+        p, li { font-size: 20px; line-height: 1.6; color: #cbd5e1; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .title-layout { text-align: center; }
+        .subtitle { font-size: 24px; color: #94a3b8; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout hr { width: 100px; height: 6px; background-color: #2563eb; border: none; margin: 20px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; width: 100%; }
+        .tiled-content { display: flex; gap: 20px; width: 100%; flex-wrap: wrap; }
+        .tile { flex: 1; background: #334155; padding: 25px; border-radius: 16px; border-bottom: 4px solid #2563eb; text-align: center; min-width: 250px; }
+        .tile i { font-size: 40px; color: #38bdf8; margin-bottom: 15px; }
+
+        .bullet-list ul { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 45px; margin-bottom: 20px; }
+        .bullet-list li i { position: absolute; left: 0; top: 5px; color: #2563eb; font-size: 24px; }
+
+        /* 5. FLASHCARDS SECTION */
+        #flashcards-section {
+            width: 1280px;
+            padding: 80px 60px;
+            background: #1e293b;
+            border-radius: 20px;
+            margin-top: 80px;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+            width: 600px;
+            height: 380px;
+            margin: 40px auto;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            position: relative;
+        }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 600;
+            border: 2px solid #2563eb;
+            text-align: center;
+        }
+        .card-front { background: #334155; color: #fff; }
+        .card-back { background: #2563eb; color: #fff; transform: rotateY(180deg); font-size: 18px; line-height: 1.5; }
+        .flash-controls { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* RESPONSIVE SCALING */
+        @media (max-width: 1320px) {
+            .slide-container, #flashcards-section { width: 95vw; height: auto; min-height: 53.4vw; padding: 4vw; }
+            h1 { font-size: 6vw; }
+            .slide-title { font-size: 3vw; }
+            p, li { font-size: 1.5vw; }
+            .flashcard-container { width: 80%; height: 250px; }
+            .card-face { font-size: 2vw; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-wrap">
+    <!-- Slide Controller -->
+    <div class="presentation-controls">
+        <button class="nav-btn" id="prevSlide" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+        <div class="slide-indicator" id="slideIndicator">1 / 11</div>
+        <button class="nav-btn" id="nextSlide" onclick="changeSlide(1)">Next <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide-container active" id="s1">
+        <div class="content-area title-layout">
+            <h1>AUTOMATION & ORCHESTRATION</h1>
+            <p class="subtitle">Session 19: Domain 4.2 — Efficiency at Scale. Mastering Playbooks, Runbooks, IaC, and API Security in Modern Defense.</p>
+            <div style="margin-top: 60px; color: #38bdf8; font-weight: 700; letter-spacing: 4px;">SY0-701 PREP</div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Automation Fundamentals -->
+    <div class="section-title-layout slide-container" id="s2">
+        <div class="content-area">
+            <h2 style="font-size: 60px; margin: 0;">01. WORKFLOW DESIGN</h2>
+            <hr>
+            <p style="font-size: 24px; color: #94a3b8;">Standardizing the response to common threats.</p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Playbooks vs. Runbooks -->
+    <div class="slide-container" id="s3">
+        <h2 class="slide-title">Playbooks vs. Runbooks</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="tile" style="border-color: #38bdf8;">
+                    <h3>Playbook (Strategic)</h3>
+                    <p class="text-xs">A high-level document explaining the "How-To" for a broad scenario. <br><em>Example: "Malware Outbreak Response."</em></p>
+                </div>
+                <div class="tile" style="border-color: #10b981;">
+                    <h3>Runbook (Tactical)</h3>
+                    <p class="text-xs">Specific, step-by-step technical instructions for a narrow task. <br><em>Example: "Disabling a user account in Azure AD via PowerShell."</em></p>
+                </div>
+            </div>
+            <p class="text-center mt-8 italic text-sm text-slate-400">"Automation executes runbooks to satisfy the strategy of a playbook."</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Infrastructure as Code (IaC) -->
+    <div class="slide-container" id="s4">
+        <h2 class="slide-title">Infrastructure as Code (IaC)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>Building via Script</h3>
+                    <p>Managing and provisioning infrastructure through machine-readable definition files rather than manual configuration.</p>
+                    <div class="bullet-list" style="margin-top: 20px;">
+                        <ul>
+                            <li><i class="fa-solid fa-repeat"></i> <strong>Repeatability:</strong> Deploy the exact same network 1,000 times.</li>
+                            <li><i class="fa-solid fa-code-compare"></i> <strong>Version Control:</strong> Track changes to security groups like code.</li>
+                            <li><i class="fa-solid fa-shield-halved"></i> <strong>Immutable:</strong> Replace, don't patch.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tile">
+                    <i class="fa-solid fa-terminal" style="font-size: 80px;"></i>
+                    <p class="text-xs italic">"Terraform, CloudFormation, Ansible."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: API Security -->
+    <div class="slide-container" id="s5">
+        <h2 class="slide-title">Securing the Glue (APIs)</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="tile">
+                    <i class="fa-solid fa-plug" style="font-size: 80px;"></i>
+                    <h3>The Interface</h3>
+                    <p class="text-xs">Application Programming Interfaces connect our automated tools.</p>
+                </div>
+                <div>
+                    <h3>Hardening APIs</h3>
+                    <ul class="bullet-list">
+                        <li><i class="fa-solid fa-key"></i> <strong>Authentication:</strong> API Keys and OAuth tokens.</li>
+                        <li><i class="fa-solid fa-filter"></i> <strong>Input Validation:</strong> Preventing code injection.</li>
+                        <li><i class="fa-solid fa-gauge"></i> <strong>Rate Limiting:</strong> Preventing DoS attacks on automated endpoints.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Section 2 Intro -->
+    <div class="section-title-layout slide-container" id="s6">
+        <div class="content-area">
+            <h2 style="font-size: 60px; margin: 0;">02. ADVANCED TOPICS</h2>
+            <hr>
+            <p style="font-size: 24px; color: #94a3b8;">Ensuring stability and security in dynamic environments.</p>
+        </div>
+    </div>
+
+    <!-- Slide 7: Configuration Drift -->
+    <div class="slide-container" id="s7">
+        <h2 class="slide-title">Configuration Drift</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>When systems deviate from their "Base Configuration" over time due to manual changes or automated glitches.</p>
+                </div>
+                <div class="tile" style="border-color: #ef4444;">
+                    <i class="fa-solid fa-wind" style="font-size: 60px;"></i>
+                    <p class="text-sm">"Drift creates invisible security holes that scanners might miss."</p>
+                </div>
+            </div>
+            <p class="text-center mt-10 italic text-blue-400">"Configuration Management tools (Puppet, Chef) pull systems back into alignment."</p>
+        </div>
+    </div>
+
+    <!-- Slide 8: Scalability & Elasticity -->
+    <div class="slide-container" id="s8">
+        <h2 class="slide-title">Scalability vs. Elasticity</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="tile">
+                    <h3>Scalability</h3>
+                    <p class="text-xs">The ability to handle *growing* amounts of work by adding resources.</p>
+                </div>
+                <div class="tile">
+                    <h3>Elasticity</h3>
+                    <p class="text-xs">The ability to *automatically* scale resources up AND down based on immediate demand.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Automated Response Triggers -->
+    <div class="slide-container" id="s9">
+        <h2 class="slide-title">Response Triggers</h2>
+        <div class="content-area">
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-ban"></i> <strong>Auto-Block:</strong> If SIEM sees 100 failed logins, SOAR triggers a firewall block.</li>
+                    <li><i class="fa-solid fa-user-slash"></i> <strong>Account Suspend:</strong> If a user logs in from two continents in 5 minutes (Impossible Travel).</li>
+                    <li><i class="fa-solid fa-microscope"></i> <strong>Sandboxing:</strong> Automatically moving a suspicious file to an isolated environment for execution.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Summary Hook -->
+    <div class="section-title-layout slide-container" id="s10">
+        <div class="content-area">
+            <h2 style="font-size: 60px; margin: 0;">AUTOMATION MASTERY</h2>
+            <hr>
+            <p style="font-size: 24px; color: #94a3b8;">Use the flashcards below to learn the logic of the automated SOC.</p>
+        </div>
+    </div>
+
+    <!-- Slide 11: Final -->
+    <div class="slide-container" id="s11">
+        <div class="content-area title-layout">
+            <h2 style="font-size: 80px; color: #fff; margin: 0;">QUESTIONS?</h2>
+            <p class="subtitle">Next Session: Checkpoint 2 (Architecture & Ops Review)</p>
+        </div>
+    </div>
+</div>
+
+<!-- FLASHCARDS SECTION -->
+<div id="flashcards-section">
+    <h2 style="font-family: 'Poppins'; font-size: 40px; color: #38bdf8; margin-bottom: 10px;">Session 19 Flashcards</h2>
+    <p style="color: #94a3b8; margin-bottom: 30px;">Automation & Orchestration (Domain 4.2)</p>
+    
+    <div class="flashcard-container">
+        <div class="flashcard" id="card">
+            <div class="card-face card-front" id="card-question">Playbook vs. Runbook?</div>
+            <div class="card-face card-back" id="card-answer">Playbook: High-level strategy for an incident type; Runbook: Step-by-step technical instructions for a specific task.</div>
+        </div>
+    </div>
+
+    <div class="flash-controls">
+        <button class="btn" onclick="prevFlashcard()">Prev</button>
+        <div id="card-counter" style="align-self: center; font-weight: 700; color: #38bdf8;">1 / 20</div>
+        <button class="btn" onclick="nextFlashcard()">Next</button>
+    </div>
+</div>
+
+<script>
+    /* PRESENTATION LOGIC */
+    let currentSlide = 1;
+    const totalSlides = 11;
+
+    function changeSlide(direction) {
+        document.getElementById(`s${currentSlide}`).classList.remove('active');
+        currentSlide += direction;
+        
+        if (currentSlide > totalSlides) currentSlide = 1;
+        if (currentSlide < 1) currentSlide = totalSlides;
+
+        document.getElementById(`s${currentSlide}`).classList.add('active');
+        document.getElementById('slideIndicator').innerText = `${currentSlide} / ${totalSlides}`;
+        
+        document.getElementById('prevSlide').disabled = (currentSlide === 1);
+        document.getElementById('nextSlide').disabled = (currentSlide === totalSlides);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    /* FLASHCARD DATA (20 Cards) */
+    const flashcardData = [
+        { q: "Playbook vs. Runbook?", a: "Playbook: High-level strategy for an incident type; Runbook: Step-by-step technical instructions for a specific task." },
+        { q: "What is Infrastructure as Code (IaC)?", a: "Managing and provisioning infrastructure through machine-readable scripts rather than manual configuration." },
+        { q: "Define Configuration Drift.", a: "When a system's configuration changes over time from its original secure baseline, often due to manual ad-hoc changes." },
+        { q: "What is an API Key?", a: "A unique identifier used to authenticate a project or user calling an API." },
+        { q: "Scalability vs. Elasticity?", a: "Scalability is the long-term ability to add resources; Elasticity is the short-term, automated scaling up and down based on demand." },
+        { q: "Define 'Orchestration'.", a: "The automated coordination and management of complex computer systems, middleware, and services." },
+        { q: "What is a 'Sandbox' in automation?", a: "An isolated environment where suspicious code can be executed and observed automatically." },
+        { q: "API Rate Limiting?", a: "Restricting the number of requests a user can make to an API within a certain timeframe to prevent abuse/DoS." },
+        { q: "What is a 'Dead Man's Switch'?", a: "An automated control that triggers a specific action if a user fails to perform a task within a set time (proves the user is still active)." },
+        { q: "Continuous Integration (CI)?", a: "A development practice where code changes are automatically tested and merged into a shared repository." },
+        { q: "Continuous Deployment (CD)?", a: "Automatically deploying code changes to production after they pass the CI testing phase." },
+        { q: "What is 'Immutable Infrastructure'?", a: "A model where components are replaced rather than modified when updates are needed." },
+        { q: "Machine Learning (ML) in automation?", a: "Using algorithms to recognize patterns in data (like log traffic) to identify anomalies automatically." },
+        { q: "Automated 'Impossible Travel' detection?", a: "A trigger that alerts if a user logs in from two distant geographic locations faster than is physically possible to travel." },
+        { q: "Configuration Management tools?", a: "Software like Ansible, Puppet, or Chef used to maintain systems in a desired, standardized state." },
+        { q: "API Authentication methods?", a: "API Keys, OAuth tokens, and Basic Authentication (though Basic is less secure)." },
+        { q: "SOAR integration role?", a: "SOAR acts as the orchestrator that connects the SIEM's alerts to the actual defensive actions in firewalls, EDR, and IAM." },
+        { q: "Provisioning vs. Deprovisioning?", a: "Provisioning: Automating the creation of resources; Deprovisioning: Automating the removal of resources to save cost and reduce attack surface." },
+        { q: "What is 'Version Control' in security?", a: "Using systems like Git to track changes in firewall rules or IaC scripts, allowing for easy rollback if an error occurs." },
+        { q: "Automated Malware Analysis?", a: "Using automated tools to dissect a file and provide a report on its behaviors (registry changes, network calls) without human intervention." }
+    ];
+
+    let currentCardIdx = 0;
+    const cardElement = document.getElementById('card');
+    const questionElement = document.getElementById('card-question');
+    const answerElement = document.getElementById('card-answer');
+    const counterElement = document.getElementById('card-counter');
+
+    cardElement.onclick = () => cardElement.classList.toggle('is-flipped');
+
+    function updateFlashcard() {
+        cardElement.classList.remove('is-flipped');
+        setTimeout(() => {
+            questionElement.innerText = flashcardData[currentCardIdx].q;
+            answerElement.innerText = flashcardData[currentCardIdx].a;
+            counterElement.innerText = `${currentCardIdx + 1} / ${flashcardData.length}`;
+        }, 300);
+    }
+
+    function nextFlashcard() { currentCardIdx = (currentCardIdx + 1) % flashcardData.length; updateFlashcard(); }
+    function prevFlashcard() { currentCardIdx = (currentCardIdx - 1 + flashcardData.length) % flashcardData.length; updateFlashcard(); }
+
+    document.getElementById('prevSlide').disabled = true;
+</script>
+
+</body>
+</html>
