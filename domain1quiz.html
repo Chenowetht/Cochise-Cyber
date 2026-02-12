@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ SY0-701 Domain 1 Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .hidden { display: none; }
+        .correct { border-color: #10b981; background-color: #ecfdf5; }
+        .incorrect { border-color: #ef4444; background-color: #fef2f2; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+
+    <!-- Header / Navigation -->
+    <header class="bg-slate-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold">Security+ SY0-701</h1>
+                <p class="text-xs text-slate-400">Domain 1: General Security Concepts</p>
+            </div>
+            <div id="timer-container" class="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 font-mono text-xl text-yellow-400">
+                45:00
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
+            <div class="mb-6 inline-flex p-4 bg-blue-50 text-blue-600 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04c0 4.833 1.233 9.33 3.391 13.235A12.188 12.188 0 0012 22.588c4.577-1.125 8.332-4.297 10.391-8.373A11.955 11.955 0 0112 2.944z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-4">Domain 1 Practice Exam</h2>
+            <div class="text-left space-y-4 mb-8 text-gray-600">
+                <p>This simulation covers 12% of the SY0-701 exam objectives:</p>
+                <ul class="list-disc ml-6 space-y-1 text-sm">
+                    <li>Security Control Categories & Types</li>
+                    <li>Fundamental Concepts (CIA, AAA, Zero Trust)</li>
+                    <li>Change Management Processes</li>
+                    <li>Cryptographic Solutions (PKI, Blockchain, Hashing)</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                    <p class="text-yellow-700 font-medium text-sm">Exam Rules:</p>
+                    <p class="text-yellow-600 text-xs">45 questions. 45 minutes. No pause. Passing score is 75%.</p>
+                </div>
+            </div>
+            <button id="start-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition duration-200 shadow-md">
+                Start Simulation
+            </button>
+        </div>
+
+        <!-- Exam UI -->
+        <div id="exam-ui" class="hidden">
+            <div class="mb-6">
+                <div class="flex justify-between items-end mb-2">
+                    <span id="question-counter" class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Question 1 of 45</span>
+                    <span id="progress-percent" class="text-xs text-gray-400 italic">2% Complete</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 2.22%"></div>
+                </div>
+            </div>
+
+            <div id="question-container" class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 mb-6">
+                <h3 id="question-text" class="text-lg md:text-xl font-semibold mb-6 leading-relaxed">
+                    Loading question...
+                </h3>
+                <div id="options-container" class="space-y-3">
+                    <!-- Options injected via JS -->
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button id="prev-btn" class="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg font-medium transition disabled:opacity-30 disabled:cursor-not-allowed">
+                    Previous
+                </button>
+                <button id="next-btn" class="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold transition shadow-sm">
+                    Next
+                </button>
+                <button id="submit-exam-btn" class="hidden px-8 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold transition shadow-sm">
+                    Submit Exam
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div id="score-header" class="p-8 text-center text-white">
+                    <h2 class="text-3xl font-bold mb-2" id="result-title">Exam Complete</h2>
+                    <div class="text-5xl font-extrabold mb-4" id="final-score">85%</div>
+                    <p id="score-message">Great job! You are ready for Domain 1.</p>
+                </div>
+                
+                <div class="p-8">
+                    <h3 class="font-bold text-lg mb-4 text-gray-700">Detailed Breakdown</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-gray-50 p-4 rounded-xl text-center">
+                            <span class="block text-xs uppercase text-gray-400 font-bold">Total</span>
+                            <span class="text-2xl font-bold" id="res-total">45</span>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-xl text-center text-green-700">
+                            <span class="block text-xs uppercase text-gray-500 font-bold">Correct</span>
+                            <span class="text-2xl font-bold" id="res-correct">0</span>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-xl text-center text-red-700">
+                            <span class="block text-xs uppercase text-gray-500 font-bold">Wrong</span>
+                            <span class="text-2xl font-bold" id="res-wrong">0</span>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-xl text-center text-blue-700">
+                            <span class="block text-xs uppercase text-gray-500 font-bold">Status</span>
+                            <span class="text-xl font-bold" id="res-status">PASS</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="window.location.reload()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition">
+                        Restart Simulator
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- Question Bank ---
+        const questions = [
+            {
+                q: "A security administrator implements a system that records movement in a server room and alerts personnel of unauthorized access after it has occurred. Which control type is this?",
+                o: ["Preventive", "Detective", "Corrective", "Deterrent"],
+                a: 1
+            },
+            {
+                q: "Which element of the CIA triad is being protected when an administrator implements hashing to ensure that a file has not been modified during transmission?",
+                o: ["Availability", "Authentication", "Confidentiality", "Integrity"],
+                a: 3
+            },
+            {
+                q: "A company implements a policy that requires two administrators to be present when making changes to the firewall. This is an example of which security concept?",
+                o: ["Dual control", "Separation of duties", "Least privilege", "Mandatory access control"],
+                a: 0
+            },
+            {
+                q: "In the AAA framework, which process is responsible for logging what a user did while connected to the network?",
+                o: ["Authentication", "Authorization", "Accounting", "Administration"],
+                a: 2
+            },
+            {
+                q: "A security analyst is implementing a 'Never Trust, Always Verify' model. Which architecture is being used?",
+                o: ["Defense in Depth", "Deperimeterization", "Zero Trust", "Air Gapping"],
+                a: 2
+            },
+            {
+                q: "Which control type is designed to discourage a potential attacker from attempting an intrusion?",
+                o: ["Deterrent", "Detective", "Directive", "Compensating"],
+                a: 0
+            },
+            {
+                q: "A company uses a fence with barbed wire and security cameras. Which category of controls do these represent?",
+                o: ["Technical", "Administrative", "Physical", "Managerial"],
+                a: 2
+            },
+            {
+                q: "Which of the following is a cryptographic solution that provides non-repudiation?",
+                o: ["Symmetric encryption", "Hashing", "Digital signatures", "Salting"],
+                a: 2
+            },
+            {
+                q: "A technician needs to ensure that a user cannot deny having sent a specific email. What security concept does this describe?",
+                o: ["Integrity", "Accounting", "Non-repudiation", "Availability"],
+                a: 2
+            },
+            {
+                q: "Which phase of change management ensures that any change can be reversed if it fails?",
+                o: ["Risk Assessment", "Backout Plan", "Technical Review", "Documentation"],
+                a: 1
+            },
+            {
+                q: "An organization installs a backup generator to ensure servers stay online during a power outage. Which part of the CIA triad is addressed?",
+                o: ["Confidentiality", "Integrity", "Availability", "Authentication"],
+                a: 2
+            },
+            {
+                q: "Which of the following is considered a Managerial control?",
+                o: ["Firewall rules", "Annual security awareness training", "Biometric locks", "Motion sensors"],
+                a: 1
+            },
+            {
+                q: "A decentralized, distributed ledger technology that uses cryptography to ensure data cannot be altered is known as:",
+                o: ["PKI", "Hashing", "Blockchain", "Digital Signature"],
+                a: 2
+            },
+            {
+                q: "What is the primary purpose of a Certificate Authority (CA) in a Public Key Infrastructure (PKI)?",
+                o: ["To encrypt data in transit", "To store passwords securely", "To issue and manage digital certificates", "To generate private keys for users"],
+                a: 2
+            },
+            {
+                q: "Which technique is used to make source code difficult for humans to understand without changing its functionality?",
+                o: ["Encryption", "Hashing", "Obfuscation", "Steganography"],
+                a: 2
+            },
+            {
+                q: "A company implements a honeytoken in their database to detect unauthorized data access. What type of technology is this?",
+                o: ["Disruption technology", "Deception technology", "Corrective technology", "Encryption technology"],
+                a: 1
+            },
+            {
+                q: "Which control type is used to fulfill a security requirement when a primary control is too expensive or impossible to implement?",
+                o: ["Directive", "Compensating", "Physical", "Preventive"],
+                a: 1
+            },
+            {
+                q: "Which concept involves providing a user only the minimum set of permissions required to perform their job?",
+                o: ["Least privilege", "Implicit deny", "Zero trust", "Role-based access"],
+                a: 0
+            },
+            {
+                q: "In PKI, which key is used by a sender to encrypt a message so that only a specific recipient can read it?",
+                o: ["Sender's private key", "Sender's public key", "Recipient's private key", "Recipient's public key"],
+                a: 3
+            },
+            {
+                q: "Which control type is a published security policy?",
+                o: ["Technical", "Detective", "Directive", "Physical"],
+                a: 2
+            },
+            {
+                q: "A system administrator is using version control for server configuration files. Why is this important for change management?",
+                o: ["It encrypts the configuration files", "It provides a historical record and allows for easy rollback", "It prevents unauthorized users from viewing the files", "It automatically updates the servers"],
+                a: 1
+            },
+            {
+                q: "Which of the following describes 'Deception' as a defense strategy?",
+                o: ["Using firewalls to block traffic", "Using honey pots to lure attackers", "Using encryption to hide data", "Using MFA for all logins"],
+                a: 1
+            },
+            {
+                q: "A security team implements IPS rules to drop packets from a known malicious IP. What type of control is this?",
+                o: ["Preventive / Technical", "Detective / Operational", "Managerial / Physical", "Corrective / Technical"],
+                a: 0
+            },
+            {
+                q: "Which of the following ensures that data remains private and only authorized users can view it?",
+                o: ["Integrity", "Confidentiality", "Availability", "Authentication"],
+                a: 1
+            },
+            {
+                q: "What is the result of applying a one-way mathematical function to data?",
+                o: ["Digital Signature", "Ciphertext", "Hash", "Certificate"],
+                a: 2
+            },
+            {
+                q: "Which cryptographic solution is used to verify the sender's identity and that the message hasn't been tampered with?",
+                o: ["Symmetric Encryption", "Hashing", "Digital Signature", "Key Exchange"],
+                a: 2
+            },
+            {
+                q: "Which change management document identifies the steps needed to perform the change?",
+                o: ["Impact Analysis", "Standard Operating Procedure (SOP)", "Request for Change (RFC)", "Post-Implementation Review"],
+                a: 2
+            },
+            {
+                q: "An employee uses a smart card and a PIN to log in. Which AAA component is being satisfied when the system validates the PIN?",
+                o: ["Authorization", "Authentication", "Accounting", "Availability"],
+                a: 1
+            },
+            {
+                q: "Which control is considered 'Technical'?",
+                o: ["Security Policy", "Fencing", "Access Control List (ACL)", "Audit"],
+                a: 2
+            },
+            {
+                q: "A user is granted 'Read-Only' access to a specific folder. Which part of AAA does this represent?",
+                o: ["Authentication", "Accounting", "Authorization", "Auditing"],
+                a: 2
+            },
+            {
+                q: "Which term describes a control that is put in place after a security incident to restore systems to normal?",
+                o: ["Corrective", "Preventive", "Detective", "Deterrent"],
+                a: 0
+            },
+            {
+                q: "Which concept assumes that there is no traditional network perimeter and every request must be authenticated and authorized?",
+                o: ["Defense in Depth", "Zero Trust", "Honeynet", "Trust but Verify"],
+                a: 1
+            },
+            {
+                q: "A security manager is updating the disaster recovery plan. Which category of control is this?",
+                o: ["Technical", "Physical", "Managerial", "Detective"],
+                a: 2
+            },
+            {
+                q: "Which cryptographic method uses two different keys for encryption and decryption?",
+                o: ["Symmetric", "Asymmetric", "Hashing", "Obfuscation"],
+                a: 1
+            },
+            {
+                q: "What is the main advantage of using blockchain for supply chain management?",
+                o: ["High speed transactions", "Immutability and transparency", "Low storage requirements", "Centralized control"],
+                a: 1
+            },
+            {
+                q: "Which of the following is a physical deterrent control?",
+                o: ["A firewall log", "A 'Protected by Security' sign", "An encrypted hard drive", "A password policy"],
+                a: 1
+            },
+            {
+                q: "A security audit discovers that a former employee still has access to the building. Which control type failed?",
+                o: ["Physical / Technical", "Operational / Physical", "Preventive / Managerial", "Detective / Technical"],
+                a: 1
+            },
+            {
+                q: "Which process involves identifying who is making a request?",
+                o: ["Identification", "Authentication", "Authorization", "Accounting"],
+                a: 0
+            },
+            {
+                q: "Which document in change management describes the potential negative effects of a proposed change?",
+                o: ["Implementation Plan", "Impact Analysis", "Backout Plan", "Schedule"],
+                a: 1
+            },
+            {
+                q: "Which of the following is an example of 'Obfuscation'?",
+                o: ["Encrypting a hard drive", "Changing variable names in code to nonsense", "Storing passwords in plain text", "Using a complex password"],
+                a: 1
+            },
+            {
+                q: "What does the 'A' in the CIA triad stand for?",
+                o: ["Authentication", "Authorization", "Accounting", "Availability"],
+                a: 3
+            },
+            {
+                q: "Which control is intended to stop an incident from occurring in the first place?",
+                o: ["Detective", "Preventive", "Corrective", "Compensating"],
+                a: 1
+            },
+            {
+                q: "A developer uses a Git repository to manage changes to code. This is an example of:",
+                o: ["Encryption", "Digital Signatures", "Version Control", "Hashing"],
+                a: 2
+            },
+            {
+                q: "In a digital signature process, what does the recipient use to verify the signature?",
+                o: ["Recipient's private key", "Sender's public key", "Sender's private key", "A shared secret"],
+                a: 1
+            },
+            {
+                q: "Which of the following is a fundamental concept of Zero Trust?",
+                o: ["Once inside the network, you are trusted", "Explicitly verify every access request", "Focus on perimeter security", "Trust the device, not the user"],
+                a: 1
+            }
+        ];
+
+        // --- App Logic ---
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timeLeft = 45 * 60; // 45 minutes
+        let timerInterval;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const examUI = document.getElementById('exam-ui');
+        const resultsScreen = document.getElementById('results-screen');
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-exam-btn');
+        const timerDisplay = document.getElementById('timer-container');
+
+        // Start Exam
+        startBtn.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+            examUI.classList.remove('hidden');
+            startTimer();
+            renderQuestion();
+        });
+
+        // Timer Function
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 300) { // Warning last 5 mins
+                    timerDisplay.classList.add('text-red-500');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        // Render Question
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            // Progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-percent').innerText = `${Math.round(progress)}% Complete`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 transition duration-150 flex items-center gap-4 ${
+                    userAnswers[currentQuestion] === idx 
+                    ? 'border-blue-600 bg-blue-50 text-blue-800 font-medium' 
+                    : 'border-gray-100 hover:border-blue-200 bg-white'
+                }`;
+                
+                const circle = `<span class="h-6 w-6 rounded-full border-2 border-current flex-shrink-0 flex items-center justify-center text-xs font-bold">${String.fromCharCode(65 + idx)}</span>`;
+                
+                btn.innerHTML = `${circle} <span>${opt}</span>`;
+                btn.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Navigation Visibility
+            prevBtn.disabled = currentQuestion === 0;
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        function selectOption(idx) {
+            userAnswers[currentQuestion] = idx;
+            renderQuestion();
+        }
+
+        nextBtn.onclick = () => {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                window.scrollTo(0,0);
+            }
+        };
+
+        prevBtn.onclick = () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                window.scrollTo(0,0);
+            }
+        };
+
+        submitBtn.onclick = () => {
+            if (confirm("Are you sure you want to submit your exam?")) {
+                finishExam();
+            }
+        };
+
+        function finishExam() {
+            clearInterval(timerInterval);
+            examUI.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            timerDisplay.classList.add('hidden');
+
+            let correctCount = 0;
+            userAnswers.forEach((ans, i) => {
+                if (ans === questions[i].a) correctCount++;
+            });
+
+            const scorePercent = Math.round((correctCount / questions.length) * 100);
+            const passed = scorePercent >= 75;
+
+            // Update UI
+            document.getElementById('final-score').innerText = `${scorePercent}%`;
+            document.getElementById('res-total').innerText = questions.length;
+            document.getElementById('res-correct').innerText = correctCount;
+            document.getElementById('res-wrong').innerText = questions.length - correctCount;
+            document.getElementById('res-status').innerText = passed ? "PASS" : "FAIL";
+            
+            const header = document.getElementById('score-header');
+            const message = document.getElementById('score-message');
+            const title = document.getElementById('result-title');
+
+            if (passed) {
+                header.className = "p-8 text-center text-white bg-green-600";
+                title.innerText = "Congratulations!";
+                message.innerText = "You have successfully passed the Domain 1 simulation.";
+            } else {
+                header.className = "p-8 text-center text-white bg-red-600";
+                title.innerText = "Keep Studying";
+                message.innerText = "You need 75% to pass. Review the Domain 1 objectives and try again.";
+            }
+        }
+    </script>
+</body>
+</html>
