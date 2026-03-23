@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Finale: Security Tournament</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #DEFF9A;
+            --neon-cyan: #00f2ff;
+            --dark-bg: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            background-color: var(--dark-bg);
+            color: #DAFFDE;
+            font-family: 'Urbanist', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Slide System */
+        .slides-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+            background: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 140px;
+            color: var(--neon-green);
+            margin: 0;
+            line-height: 0.9;
+            text-align: center;
+        }
+
+        h2.slide-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 80px;
+            color: var(--neon-green);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 32px;
+            color: var(--neon-cyan);
+            margin-top: 0;
+            line-height: 1.2;
+        }
+
+        p, li {
+            font-size: 24px;
+            line-height: 1.4;
+        }
+
+        li {
+            margin-bottom: 8px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        /* Layout Elements */
+        .tile {
+            background: var(--card-bg);
+            border: 2px solid rgba(222, 255, 154, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+        }
+
+        .tag {
+            background: var(--neon-green);
+            color: #000;
+            padding: 8px 20px;
+            font-weight: 700;
+            font-size: 18px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 10px 25px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--neon-green);
+            color: #000;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: var(--neon-cyan);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .reveal-btn {
+            margin-top: 20px;
+            background: var(--neon-cyan);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .answer-content {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logic-box {
+            background: rgba(0, 242, 255, 0.1);
+            border-left: 5px solid var(--neon-cyan);
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="slides-wrapper" id="slidesWrapper">
+        <!-- SLIDE 1: INTRO -->
+        <div class="slide active">
+            <span class="tag">Cochise College • Spring 2026</span>
+            <h1>The Grand Finale</h1>
+            <h2 class="slide-title" style="color: var(--neon-cyan);">Security Tournament</h2>
+            <p>Ready your buzzers. Let's see who owns the keys to the Cloud.</p>
+        </div>
+
+        <!-- SLIDE 2: ROUND 1 START -->
+        <div class="slide">
+            <h1 style="font-size: 180px;">ROUND 1</h1>
+            <h2 class="slide-title">The Handshake</h2>
+            <p>Establish your "Security Score" with the fundamentals.</p>
+        </div>
+
+        <!-- SLIDE 3: Q 2.1 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.1</span>
+                <h3>Which AWS service could an administrator use to securely control access to AWS resources for users?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. AWS Config</li>
+                    <li>B. AWS Identity and Access Management (IAM)</li>
+                    <li>C. AWS CloudTrail</li>
+                    <li>D. AWS CloudFormation</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: B. AWS IAM</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Front Gate" Logic:</strong> AWS provides physical security for the data centers. Who is responsible for this? <strong>The Landlord (AWS).</strong> Principle: <strong>Security OF the Cloud.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Q 2.2 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.2</span>
+                <h3>What are TWO advantages of cloud computing? (Select TWO)</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Provision resources up front</li>
+                    <li>B. Stop guessing capacity</li>
+                    <li>C. Trade fixed expense for variable expense</li>
+                    <li>D. Trade variable expense for fixed expense</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: B & C</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Open Window" Dilemma:</strong> A tenant leaves their RDP/SSH ports open to 0.0.0.0/0. Who is at fault? <strong>The Tenant (Customer).</strong> Security <strong>IN</strong> the cloud.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Q 2.3 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.3</span>
+                <h3>What is the triad originally developed to highlight important aspects of information security?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Visibility, agility, and automation (VAA)</li>
+                    <li>B. Confidentiality, integrity, and agility (CIA)</li>
+                    <li>C. Confidentiality, integrity, and availability (CIA)</li>
+                    <li>D. Controllability, auditability, and agility (CAA)</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: C. Confidentiality, integrity, and availability (CIA)</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Master Key" Service:</strong> Which service acts as the "Key Office" to create specific keys for workers? <strong>AWS IAM.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Q 2.4 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.4</span>
+                <h3>Which security principle involves monitoring, alerting, and auditing actions and changes to the environment in real time?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Enable traceability</li>
+                    <li>B. Secure all layers</li>
+                    <li>C. Apply the principle of least privilege</li>
+                    <li>D. Protect data in transit and at rest</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: A. Enable traceability</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Building Blueprint":</strong> If you move furniture to a different complex in Germany to reduce lag, what are you choosing? <strong>An AWS Region.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Q 2.5 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.5</span>
+                <h3>What is a characteristic of the security principle to protect data in transit?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Use a defense in depth approach</li>
+                    <li>B. Use Transport Layer Security (TLS) connections</li>
+                    <li>C. Enforce separation of duties</li>
+                    <li>D. Be ready to scale and absorb the attack</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: B. Use Transport Layer Security (TLS) connections</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Maintenance Log":</strong> The Landlord records every time a key is used. What is this service called? <strong>AWS CloudTrail.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Q 2.6 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.6</span>
+                <h3>What are TWO characteristics of the principle to "prepare for security events"? (Select TWO)</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Use subnets in only one Availability Zone</li>
+                    <li>B. Routinely practice incident response through game days</li>
+                    <li>C. Create processes to isolate incidents and restore operations</li>
+                    <li>D. Use different AWS services</li>
+                    <li>E. Use hard-coded credentials</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: B & C</strong></p>
+                    <div class="logic-box">
+                        <p><strong>The "Shared Utility":</strong> Who is responsible for patching the "pipes" (Hypervisor) vs the "sink" (EC2 OS)? <strong>AWS patches pipes; Customer patches sink.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Q 2.7 -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Assessment 2.7</span>
+                <h3>Which action is the customer's responsibility under the AWS shared responsibility model?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>A. Patching the underlying infrastructure</li>
+                    <li>B. Securing the physical infrastructure</li>
+                    <li>C. Patching Amazon EC2 instances</li>
+                    <li>D. Patching the network infrastructure</li>
+                </ul>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer & Logic</button>
+                <div class="answer-content">
+                    <p><strong>Correct Answer: C. Patching Amazon EC2 instances</strong></p>
+                    <div class="logic-box">
+                        <p>The customer is responsible for security <strong>in</strong> the cloud, which includes the OS, networking, and firewall configuration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: ROUND 2 START -->
+        <div class="slide">
+            <h1>ROUND 2</h1>
+            <h2 class="slide-title">The Audit</h2>
+            <p>Escalated difficulty. Focus on Automation and the CIA Triad.</p>
+        </div>
+
+        <!-- SLIDE 11: CHALLENGE - VAULT -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Challenge: Round 2.1</span>
+                <h3>The "Vault" Scenario</h3>
+                <p>A bank (Tenant) wants to ensure that even if a Landlord employee walked into the server room, they couldn't read the files. Which security principle is applied?</p>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer</button>
+                <div class="answer-content">
+                    <p><strong>Answer: Confidentiality (via Encryption)</strong></p>
+                    <p>Encryption keeps your "valuables" private even if the room is physically breached.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: CHALLENGE - SPRINKLER -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Challenge: Round 2.2</span>
+                <h3>The "Emergency Sprinkler"</h3>
+                <p>A Tenant wants their apartment to automatically add more space if guests arrive, keeping security identical. Which service automates this "reproducible" setup?</p>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer</button>
+                <div class="answer-content">
+                    <p><strong>Answer: AWS CloudFormation</strong></p>
+                    <p>It acts as the architectural blueprint for your environment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: CHALLENGE - INSPECTOR -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">Challenge: Round 2.3</span>
+                <h3>The "Building Inspector"</h3>
+                <p>Which service continuously "walks the halls" to check if any Tenant has accidentally left their "door" (S3 Bucket) unlocked to the public?</p>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Answer</button>
+                <div class="answer-content">
+                    <p><strong>Answer: AWS Config or Amazon Macie</strong></p>
+                    <p>They audit configurations and sensitive data discovery automatically.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: ROUND 3 START -->
+        <div class="slide">
+            <h1>ROUND 3</h1>
+            <h2 class="slide-title">The "Toughy" Final</h2>
+            <p>Multi-part analysis. Head-to-Head-to-Head.</p>
+        </div>
+
+        <!-- SLIDE 15: FINAL BOSS -->
+        <div class="slide">
+            <div class="tile">
+                <span class="tag">The Managed Service Mystery</span>
+                <h3>A Tenant switches from EC2 (Oracle) to RDS (Managed Service).</h3>
+                <div style="text-align: left; margin-top: 20px;">
+                    <p><strong>Part A:</strong> Who patched software on EC2?</p>
+                    <p><strong>Part B:</strong> Who patches it now on RDS?</p>
+                    <p><strong>Part C:</strong> If the Tenant leaks the Admin "Valve" (Credentials), who is at fault?</p>
+                </div>
+                <button class="reveal-btn" onclick="reveal(this)">Reveal Final Answers</button>
+                <div class="answer-content">
+                    <p><strong>A: The Tenant (Customer)</strong></p>
+                    <p><strong>B: The Landlord (AWS)</strong></p>
+                    <p><strong>C: The Tenant (Always responsible for credentials)</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: OUTRO -->
+        <div class="slide">
+            <h2 class="slide-title">Tournament Complete</h2>
+            <h1>Champions!</h1>
+            <p>You have mastered the Shared Responsibility Model.</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="changeSlide(-1)">Prev</button>
+        <button class="btn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateSlide() {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentIdx);
+            });
+            const progress = ((currentIdx + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function changeSlide(dir) {
+            currentIdx += dir;
+            if (currentIdx < 0) currentIdx = 0;
+            if (currentIdx >= slides.length) currentIdx = slides.length - 1;
+            updateSlide();
+        }
+
+        function reveal(btn) {
+            const content = btn.nextElementSibling;
+            content.style.display = 'block';
+            btn.style.display = 'none';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
