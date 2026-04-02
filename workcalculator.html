@@ -3,101 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cochise Hybrid Workload Tool</title>
+    <title>Cochise College - Workload Integrator v6</title>
     <style>
         :root {
             --cochise-red: #D32F2F;
             --pure-white: #FFFFFF;
-            --bg-gray: #f4f7f6;
-            --success: #27ae60;
-            --warning: #f39c12;
+            --bg-gray: #f8f9fa;
+            --success: #2ecc71;
+            --warning: #f1c40f;
             --danger: #e74c3c;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-gray); padding: 20px; color: #333; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 12px solid var(--cochise-red); }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-gray); color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-top: 12px solid var(--cochise-red); }
         
-        header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
-        .credit-master { background: #fff5f5; padding: 15px 25px; border-radius: 50px; border: 2px solid var(--cochise-red); }
+        /* Header: Official Credit Logic */
+        header { padding: 30px; background: #fff; border-bottom: 1px solid #eee; }
+        .official-config { display: flex; gap: 30px; align-items: center; background: #fff5f5; padding: 20px; border-radius: 8px; border: 1px solid #ffcdd2; margin-top: 15px; }
+        .official-config div { display: flex; flex-direction: column; }
+        .official-config label { font-size: 0.75rem; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 5px; }
+        .official-config input { width: 80px; font-size: 1.5rem; padding: 5px; border: 2px solid var(--cochise-red); border-radius: 4px; text-align: center; }
         
-        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px 30px; }
-        .stat-card { background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .stat-val { font-size: 2rem; font-weight: 800; color: var(--cochise-red); display: block; }
-        .stat-label { font-size: 0.75rem; text-transform: uppercase; color: #777; font-weight: 700; }
+        #credit-display { font-size: 1.5rem; font-weight: 800; color: var(--cochise-red); }
 
-        .progress-container { margin: 0 30px 30px; height: 35px; background: #eee; border-radius: 20px; overflow: hidden; position: relative; }
-        #progress-bar { height: 100%; width: 0%; transition: width 0.5s ease; background: var(--success); }
-        .progress-text { position: absolute; width: 100%; text-align: center; line-height: 35px; font-weight: 900; font-size: 0.8rem; }
+        /* Dashboard */
+        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 25px 30px; }
+        .stat-card { background: #fff; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
+        .stat-val { font-size: 2.5rem; font-weight: 800; color: var(--cochise-red); display: block; }
+        .stat-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; }
 
+        /* Progress Bar */
+        .progress-section { padding: 0 30px 30px; }
+        .progress-container { height: 40px; background: #eee; border-radius: 20px; overflow: hidden; position: relative; border: 2px solid #ddd; }
+        #progress-bar { height: 100%; width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); background: var(--success); }
+        .progress-text { position: absolute; width: 100%; text-align: center; line-height: 40px; font-weight: 900; color: #222; }
+
+        /* Modules */
         .module { padding: 20px 30px; border-bottom: 1px solid #eee; }
-        .module-header { font-weight: bold; color: var(--cochise-red); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9rem; }
+        .module-header { font-weight: bold; color: var(--cochise-red); margin-bottom: 15px; display: flex; justify-content: space-between; }
         
-        .row-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 40px; gap: 10px; margin-bottom: 10px; align-items: center; }
-        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .row-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr 40px; gap: 10px; margin-bottom: 12px; align-items: center; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; }
         
-        /* Specific styling for the Required toggle */
-        .req-toggle { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: bold; }
-        
-        .add-btn { background: none; border: 2px dashed #ccc; color: #888; width: 100%; padding: 10px; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .add-btn:hover { border-color: var(--cochise-red); color: var(--cochise-red); }
+        .add-btn { background: #fafafa; border: 2px dashed #ccc; color: #777; width: 100%; padding: 10px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .add-btn:hover { border-color: var(--cochise-red); color: var(--cochise-red); background: #fff5f5; }
         .remove-btn { color: #ccc; border: none; background: none; cursor: pointer; font-size: 1.5rem; }
+        .remove-btn:hover { color: var(--danger); }
+
+        footer { padding: 20px 30px; background: #f9f9f9; font-size: 0.8rem; color: #888; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div>
-            <h1 style="margin:0;">Hybrid Course Estimator</h1>
-            <p style="margin:0; color:#666;">Cochise College Faculty Planning Tool</p>
-        </div>
-        <div class="credit-master">
-            <label style="font-weight:bold;">OFFICIAL COURSE CREDITS: </label>
-            <input type="number" id="master-credits" value="3" step="0.5" style="width:50px; font-size:1.1rem; border:none; background:transparent; font-weight:bold; color:var(--cochise-red);" oninput="calculate()">
+        <h1 style="margin:0; color:var(--cochise-red);">Master Course Integrity Tool</h1>
+        <p style="margin:5px 0 20px 0; color:#666;">Official Credit & Hybrid Workload Calculator</p>
+        
+        <div class="official-config">
+            <div>
+                <label>Official Lecture Hrs</label>
+                <input type="number" id="off-lec" value="2" oninput="calculate()">
+            </div>
+            <div style="font-size: 1.5rem; padding-top: 25px;">+</div>
+            <div>
+                <label>Official Lab Hrs</label>
+                <input type="number" id="off-lab" value="3" oninput="calculate()">
+            </div>
+            <div style="border-left: 2px solid #ffcdd2; padding-left: 30px; margin-left: 10px;">
+                <label>Total Credits</label>
+                <span id="credit-display">4.1</span>
+            </div>
+            <div style="margin-left: auto; text-align: right;">
+                <label>Weekly Time Budget</label>
+                <span id="budget-display" style="font-size: 1.5rem; font-weight: 800;">12.3 hrs</span>
+            </div>
         </div>
     </header>
 
     <div class="dashboard">
         <div class="stat-card">
-            <span class="stat-val" id="total-budget">9.0</span>
-            <span class="stat-label">Total Weekly Time Budget</span>
+            <span class="stat-val" id="total-assigned">0.0</span>
+            <span class="stat-label">Assigned Hours</span>
         </div>
         <div class="stat-card">
             <span class="stat-val" id="req-contact">0.0</span>
-            <span class="stat-label">Required Contact Hrs</span>
+            <span class="stat-label">Mandatory Attendance</span>
         </div>
-        <div class="stat-card" style="border-color: var(--success);">
-            <span class="stat-val" id="hw-allowance" style="color:var(--success);">9.0</span>
-            <span class="stat-label">Remaining HW Allowance</span>
+        <div class="stat-card">
+            <span class="stat-val" id="hw-allowance">12.3</span>
+            <span class="stat-label">Remaining HW Budget</span>
         </div>
     </div>
 
-    <div class="progress-container">
-        <div id="progress-bar"></div>
-        <div class="progress-text" id="progress-percent">0% LOAD</div>
+    <div class="progress-section">
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+            <div class="progress-text" id="progress-percent">0% LOAD</div>
+        </div>
     </div>
 
     <div class="module" style="background:#fff9f9;">
-        <div class="module-header">1. Synchronous & Contact Time (Meetings/Labs)</div>
+        <div class="module-header">1. Synchronous Attendance (The Hybrid "Seat Time")</div>
         <div id="contact-list"></div>
-        <button class="add-btn" onclick="addRow('contact')">+ Add Meeting (Lecture/Lab/Office Hrs)</button>
+        <button class="add-btn" onclick="addRow('contact')">+ Add Required or Optional Meeting</button>
     </div>
 
     <div class="module">
-        <div class="module-header">2. Independent Reading & Research</div>
+        <div class="module-header">2. Independent Reading (Research-Based Rates)</div>
         <div id="reading-list"></div>
-        <button class="add-btn" onclick="addRow('reading')">+ Add Reading Task</button>
+        <button class="add-btn" onclick="addRow('reading')">+ Add Reading Assignment</button>
     </div>
 
     <div class="module">
-        <div class="module-header">3. Writing, Projects & Assessments</div>
+        <div class="module-header">3. Writing, Labs & Technical Projects</div>
         <div id="writing-list"></div>
-        <button class="add-btn" onclick="addRow('writing')">+ Add Writing/Assessment</button>
+        <button class="add-btn" onclick="addRow('writing')">+ Add Writing or Project Task</button>
     </div>
 
-    <div style="padding:20px 30px; font-size:0.8rem; color:#888;">
-        <b>Note:</b> Required items subtract directly from the credit-based budget. Optional items are tracked but do not trigger "Over Budget" warnings unless the student attends them.
-    </div>
+    <footer>
+        Logic: Budget = ([Lecture × 1] + [Lab × 0.7]) × 3. <br>
+        Research: Reading rates based on Rayner (2016); Writing based on Torrance (2000).
+    </footer>
 </div>
 
 <script>
@@ -119,26 +146,23 @@
         
         if (type === 'contact') {
             div.innerHTML = `
-                <input type="text" placeholder="e.g. Hybrid Meeting" oninput="calculate()">
-                <input type="number" placeholder="Hrs" class="val" step="0.5" value="1" oninput="calculate()">
-                <select class="type-mod" onchange="calculate()">
-                    <option value="1">Lecture (1.0)</option>
-                    <option value="0.7">Lab (0.7)</option>
-                </select>
-                <div class="req-toggle"><input type="checkbox" class="is-req" checked onchange="calculate()"> Required?</div>
+                <input type="text" placeholder="e.g. Weekly Hybrid Sync" oninput="calculate()">
+                <input type="number" placeholder="Hrs" class="val" value="3" oninput="calculate()">
+                <div style="font-size:0.8rem;"><input type="checkbox" class="is-req" checked onchange="calculate()"> Mandatory?</div>
+                <span>(In-Class)</span>
             `;
         } else if (type === 'reading') {
             div.innerHTML = `
-                <input type="text" placeholder="Reading title" oninput="calculate()">
+                <input type="text" placeholder="Reading Title" oninput="calculate()">
                 <input type="number" placeholder="Pgs" class="val" oninput="calculate()">
                 <select class="opt1" onchange="calculate()"><option value="750">Textbook</option><option value="600">Monograph</option></select>
                 <select class="opt2" onchange="calculate()"><option value="U-Some">Understand</option><option value="E-Many">Engage</option></select>
             `;
         } else {
             div.innerHTML = `
-                <input type="text" placeholder="Assignment" oninput="calculate()">
+                <input type="text" placeholder="Project Title" oninput="calculate()">
                 <input type="number" placeholder="Pgs/Hrs" class="val" oninput="calculate()">
-                <select class="opt1" onchange="calculate()"><option value="250">Writing (DS)</option><option value="1">Fixed Hours</option></select>
+                <select class="opt1" onchange="calculate()"><option value="250">Writing (DS)</option><option value="1">Direct Hours</option></select>
                 <select class="opt2" onchange="calculate()"><option value="A-Min">Argument</option><option value="R-No">Reflection</option></select>
             `;
         }
@@ -149,58 +173,59 @@
     }
 
     function calculate() {
-        const masterCredits = parseFloat(document.getElementById('master-credits').value) || 0;
-        const totalBudget = masterCredits * 3;
+        const offLec = parseFloat(document.getElementById('off-lec').value) || 0;
+        const offLab = parseFloat(document.getElementById('off-lab').value) || 0;
         
-        let reqContact = 0;
-        let optContact = 0;
-        let homeworkTime = 0;
+        const credits = (offLec * 1) + (offLab * 0.7);
+        const budget = credits * 3;
+        
+        document.getElementById('credit-display').innerText = credits.toFixed(1);
+        document.getElementById('budget-display').innerText = budget.toFixed(1) + " hrs";
 
-        // 1. Calculate Contact Time
+        let totalAssigned = 0;
+        let mandatoryAttendance = 0;
+
+        // 1. Attendance
         document.querySelectorAll('#contact-list .row-grid').forEach(row => {
-            const hrs = parseFloat(row.querySelector('.val').value) || 0;
-            const mod = parseFloat(row.querySelector('.type-mod').value);
-            const isRequired = row.querySelector('.is-req').checked;
-            
-            if (isRequired) reqContact += hrs;
-            else optContact += hrs;
+            const h = parseFloat(row.querySelector('.val').value) || 0;
+            const isReq = row.querySelector('.is-req').checked;
+            if (isReq) {
+                mandatoryAttendance += h;
+                totalAssigned += h;
+            }
         });
 
-        // 2. Calculate Reading
+        // 2. Reading
         document.querySelectorAll('#reading-list .row-grid').forEach(row => {
             const p = parseFloat(row.querySelector('.val').value) || 0;
-            homeworkTime += p / readingRates[row.querySelector('.opt1').value][row.querySelector('.opt2').value];
+            totalAssigned += p / readingRates[row.querySelector('.opt1').value][row.querySelector('.opt2').value];
         });
 
-        // 3. Calculate Writing
+        // 3. Writing/Other
         document.querySelectorAll('#writing-list .row-grid').forEach(row => {
             const v = parseFloat(row.querySelector('.val').value) || 0;
             const mode = row.querySelector('.opt1').value;
-            if (mode === "1") homeworkTime += v; 
-            else homeworkTime += v * writingRates[mode][row.querySelector('.opt2').value];
+            if (mode === "1") totalAssigned += v;
+            else totalAssigned += v * writingRates[mode][row.querySelector('.opt2').value];
         });
 
-        const totalRequired = reqContact + homeworkTime;
-        const remainingHW = totalBudget - reqContact - homeworkTime;
+        // Update Dashboard
+        document.getElementById('total-assigned').innerText = totalAssigned.toFixed(1);
+        document.getElementById('req-contact').innerText = mandatoryAttendance.toFixed(1);
+        const allowance = budget - totalAssigned;
+        document.getElementById('hw-allowance').innerText = allowance.toFixed(1);
+        document.getElementById('hw-allowance').style.color = allowance < 0 ? 'var(--danger)' : 'var(--success)';
 
-        // UI Updates
-        document.getElementById('total-budget').innerText = totalBudget.toFixed(1);
-        document.getElementById('req-contact').innerText = reqContact.toFixed(1);
-        document.getElementById('hw-allowance').innerText = remainingHW.toFixed(1);
-        
-        const hwAllowanceLabel = document.getElementById('hw-allowance');
-        hwAllowanceLabel.style.color = remainingHW < 0 ? 'var(--danger)' : 'var(--success)';
-
-        const percent = Math.min((totalRequired / totalBudget) * 100, 100);
+        // Progress Bar
+        const percent = Math.min((totalAssigned / budget) * 100, 100);
         const bar = document.getElementById('progress-bar');
-        bar.style.width = percent + '%';
-        bar.style.backgroundColor = totalRequired > totalBudget ? 'var(--danger)' : (totalRequired > totalBudget * 0.8 ? 'var(--warning)' : 'var(--success)');
-        document.getElementById('progress-percent').innerText = Math.round((totalRequired / totalBudget) * 100) + '% OF MANDATORY CAPACITY';
+        bar.style.width = (totalAssigned / budget * 100) + '%';
+        bar.style.backgroundColor = totalAssigned > budget ? 'var(--danger)' : (totalAssigned > budget * 0.8 ? 'var(--warning)' : 'var(--success)');
+        document.getElementById('progress-percent').innerText = Math.round((totalAssigned / budget) * 100) + '% CAPACITY';
     }
 
-    // Default Starting View
     addRow('contact');
-    addRow('reading');
+    calculate();
 </script>
 
 </body>
