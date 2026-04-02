@@ -3,102 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Workload Estimator</title>
+    <title>Workload Estimator - Credit Balanced</title>
     <style>
         :root {
             --school-red: #D32F2F;
             --pure-white: #FFFFFF;
             --light-gray: #F5F5F5;
             --dark-text: #212121;
+            --success-green: #2E7D32;
+            --warning-orange: #EF6C00;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-gray);
-            color: var(--dark-text);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--pure-white);
-            padding: 30px;
-            border-top: 10px solid var(--school-red);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        h1 { color: var(--school-red); text-align: center; }
-        h2 { border-bottom: 2px solid var(--school-red); padding-bottom: 10px; margin-top: 30px; }
-
-        .input-group {
-            display: grid;
-            grid-template-columns: 2fr 1fr 2fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-
-        input, select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: var(--school-red);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover { opacity: 0.9; }
-
-        .result-box {
-            margin-top: 40px;
-            padding: 20px;
-            background: var(--school-red);
-            color: white;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        #total-hours { font-size: 3rem; display: block; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-gray); padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-top: 10px solid var(--school-red); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
-        .remove-btn { background: #666; padding: 5px 10px; font-size: 0.8rem; }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--school-red); padding-bottom: 10px; margin-bottom: 20px; }
+        h1 { color: var(--school-red); margin: 0; }
+        
+        .credit-config { background: #fff5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #ffcdd2; }
+        
+        .section-header { font-weight: bold; text-transform: uppercase; color: #666; font-size: 0.9rem; margin: 20px 0 10px 0; }
+        
+        .input-group { display: grid; grid-template-columns: 2fr 1fr 2fr 1fr 40px; gap: 10px; margin-bottom: 10px; }
+        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        
+        .add-btn { background: #f0f0f0; border: 1px dashed #ccc; width: 100%; padding: 10px; cursor: pointer; margin-bottom: 20px; }
+        .add-btn:hover { background: #e0e0e0; }
+
+        .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .stat-card { padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+        .stat-val { font-size: 2.5rem; font-weight: bold; display: block; }
+        
+        .progress-container { grid-column: span 2; background: #eee; height: 30px; border-radius: 15px; overflow: hidden; margin-top: 10px; position: relative; }
+        #progress-bar { height: 100%; width: 0%; transition: width 0.5s, background-color 0.5s; background: var(--success-green); }
+        .progress-label { position: absolute; width: 100%; text-align: center; line-height: 30px; font-weight: bold; color: #000; }
+        
+        .remove-btn { color: #999; border: none; background: none; cursor: pointer; font-size: 1.2rem; }
+        .remove-btn:hover { color: var(--school-red); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Student Workload Calculator</h1>
-    <p style="text-align: center;">Based on Rayner (2016) and Torrance (2000) Research Data</p>
-
-    <h2>Reading Assignments</h2>
-    <div id="reading-list">
+    <div class="header-flex">
+        <h1>Course Workload Estimator</h1>
+        <div class="credit-config">
+            <label>Course Credits: </label>
+            <select id="course-credits" onchange="calculate()">
+                <option value="1">1 Credit</option>
+                <option value="2">2 Credits</option>
+                <option value="3" selected>3 Credits</option>
+                <option value="4">4 Credits</option>
+                <option value="5">5 Credits</option>
+            </select>
         </div>
-    <button onclick="addRow('reading')">+ Add Reading Task</button>
-
-    <h2>Writing Assignments</h2>
-    <div id="writing-list">
-        </div>
-    <button onclick="addRow('writing')">+ Add Writing Task</button>
-
-    <div class="result-box">
-        <h3>Estimated Weekly Workload</h3>
-        <span id="total-hours">0.0</span>
-        <p>Hours per Week</p>
-        <div id="status-msg">Enter tasks to begin calculation.</div>
     </div>
+
+    <div class="section-header">Reading (Pages)</div>
+    <div id="reading-list"></div>
+    <button class="add-btn" onclick="addRow('reading')">+ Add Reading Assignment</button>
+
+    <div class="section-header">Writing (Pages)</div>
+    <div id="writing-list"></div>
+    <button class="add-btn" onclick="addRow('writing')">+ Add Writing Assignment</button>
+
+    <div class="dashboard">
+        <div class="stat-card">
+            <span class="stat-val" id="total-hours">0.0</span>
+            Hours Assigned
+        </div>
+        <div class="stat-card">
+            <span class="stat-val" id="budget-hours">9.0</span>
+            Weekly Budget (Total Engagement)
+        </div>
+        
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+            <div class="progress-label" id="burnout-index">0% of Weekly Capacity</div>
+        </div>
+    </div>
+    
+    <p id="feedback-text" style="text-align: center; margin-top: 15px; font-weight: bold;"></p>
 </div>
 
 <script>
-    // Data objects from your provided research tables
     const readingRates = {
         '450': { 'S-No': 67, 'S-Some': 47, 'S-Many': 33, 'U-No': 33, 'U-Some': 24, 'U-Many': 17, 'E-No': 17, 'E-Some': 12, 'E-Many': 9 },
         '600': { 'S-No': 50, 'S-Some': 35, 'S-Many': 25, 'U-No': 25, 'U-Some': 18, 'U-Many': 13, 'E-No': 13, 'E-Some': 9, 'E-Many': 7 },
@@ -117,73 +105,87 @@
         
         if (type === 'reading') {
             div.innerHTML = `
-                <input type="text" placeholder="e.g. Chapter 1" oninput="calculate()">
+                <input type="text" placeholder="Chapter..." oninput="calculate()">
                 <input type="number" placeholder="Pages" class="pages" oninput="calculate()">
                 <select class="density" onchange="calculate()">
-                    <option value="450">Paperback (450w)</option>
-                    <option value="600">Monograph (600w)</option>
                     <option value="750">Textbook (750w)</option>
+                    <option value="600">Monograph (600w)</option>
+                    <option value="450">Paperback (450w)</option>
                 </select>
                 <select class="context" onchange="calculate()">
                     <option value="U-Some">Understand; Some New</option>
+                    <option value="U-Many">Understand; Many New</option>
+                    <option value="E-Some">Engage; Some New</option>
                     <option value="S-No">Survey; No New</option>
-                    <option value="E-Many">Engage; Many New</option>
-                    </select>
-                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">X</button>
+                </select>
+                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">×</button>
             `;
         } else {
             div.innerHTML = `
-                <input type="text" placeholder="e.g. Reflection" oninput="calculate()">
+                <input type="text" placeholder="Assignment..." oninput="calculate()">
                 <input type="number" placeholder="Pages" class="pages" oninput="calculate()">
                 <select class="density" onchange="calculate()">
-                    <option value="250">Double Spaced (250w)</option>
-                    <option value="500">Single Spaced (500w)</option>
+                    <option value="250">Double Spaced</option>
+                    <option value="500">Single Spaced</option>
                 </select>
                 <select class="context" onchange="calculate()">
                     <option value="A-Min">Argument; Minimal Drafting</option>
                     <option value="R-No">Reflection; No Drafting</option>
                     <option value="Res-Ext">Research; Extensive Drafting</option>
                 </select>
-                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">X</button>
+                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">×</button>
             `;
         }
         container.appendChild(div);
     }
 
     function calculate() {
-        let total = 0;
+        let assigned = 0;
+        const credits = parseInt(document.getElementById('course-credits').value);
+        const budget = credits * 3; // Total engagement budget (Class + Homework)
 
-        // Calculate Reading
         document.querySelectorAll('#reading-list .input-group').forEach(row => {
             const p = parseFloat(row.querySelector('.pages').value) || 0;
             const d = row.querySelector('.density').value;
             const c = row.querySelector('.context').value;
-            total += p / readingRates[d][c];
+            assigned += p / readingRates[d][c];
         });
 
-        // Calculate Writing
         document.querySelectorAll('#writing-list .input-group').forEach(row => {
             const p = parseFloat(row.querySelector('.pages').value) || 0;
             const d = row.querySelector('.density').value;
             const c = row.querySelector('.context').value;
-            total += p * writingRates[d][c];
+            assigned += p * writingRates[d][c];
         });
 
-        document.getElementById('total-hours').innerText = total.toFixed(1);
+        // Update UI
+        document.getElementById('total-hours').innerText = assigned.toFixed(1);
+        document.getElementById('budget-hours').innerText = budget.toFixed(1);
         
-        const msg = document.getElementById('status-msg');
-        if (total > 12) {
-            msg.innerText = "⚠️ DANGER: Significant overload. High student burnout risk.";
-        } else if (total > 8) {
-            msg.innerText = "Moderate: A heavy but manageable week for most.";
+        const percent = Math.min((assigned / budget) * 100, 100);
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = percent + '%';
+        
+        document.getElementById('burnout-index').innerText = Math.round((assigned / budget) * 100) + '% of Weekly Capacity';
+
+        const feedback = document.getElementById('feedback-text');
+        if (assigned > budget) {
+            progressBar.style.backgroundColor = 'var(--school-red)';
+            feedback.innerText = "🚨 OVER BUDGET: You are over-assigning work for a " + credits + "-credit course.";
+            feedback.style.color = 'var(--school-red)';
+        } else if (assigned > budget * 0.8) {
+            progressBar.style.backgroundColor = 'var(--warning-orange)';
+            feedback.innerText = "⚠️ CAUTION: Students are nearing their maximum cognitive load.";
+            feedback.style.color = 'var(--warning-orange)';
         } else {
-            msg.innerText = "Healthy: Balanced workload.";
+            progressBar.style.backgroundColor = 'var(--success-green)';
+            feedback.innerText = "✅ HEALTHY: This workload fits well within the credit expectations.";
+            feedback.style.color = 'var(--success-green)';
         }
     }
 
-    // Add initial rows
     addRow('reading');
-    addRow('writing');
+    calculate();
 </script>
 
 </body>
