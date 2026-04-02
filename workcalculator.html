@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Workload Estimator</title>
+    <style>
+        :root {
+            --school-red: #D32F2F;
+            --pure-white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-text: #212121;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--pure-white);
+            padding: 30px;
+            border-top: 10px solid var(--school-red);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 { color: var(--school-red); text-align: center; }
+        h2 { border-bottom: 2px solid var(--school-red); padding-bottom: 10px; margin-top: 30px; }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--school-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .result-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--school-red);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #total-hours { font-size: 3rem; display: block; }
+        
+        .remove-btn { background: #666; padding: 5px 10px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Student Workload Calculator</h1>
+    <p style="text-align: center;">Based on Rayner (2016) and Torrance (2000) Research Data</p>
+
+    <h2>Reading Assignments</h2>
+    <div id="reading-list">
+        </div>
+    <button onclick="addRow('reading')">+ Add Reading Task</button>
+
+    <h2>Writing Assignments</h2>
+    <div id="writing-list">
+        </div>
+    <button onclick="addRow('writing')">+ Add Writing Task</button>
+
+    <div class="result-box">
+        <h3>Estimated Weekly Workload</h3>
+        <span id="total-hours">0.0</span>
+        <p>Hours per Week</p>
+        <div id="status-msg">Enter tasks to begin calculation.</div>
+    </div>
+</div>
+
+<script>
+    // Data objects from your provided research tables
+    const readingRates = {
+        '450': { 'S-No': 67, 'S-Some': 47, 'S-Many': 33, 'U-No': 33, 'U-Some': 24, 'U-Many': 17, 'E-No': 17, 'E-Some': 12, 'E-Many': 9 },
+        '600': { 'S-No': 50, 'S-Some': 35, 'S-Many': 25, 'U-No': 25, 'U-Some': 18, 'U-Many': 13, 'E-No': 13, 'E-Some': 9, 'E-Many': 7 },
+        '750': { 'S-No': 40, 'S-Some': 28, 'S-Many': 20, 'U-No': 20, 'U-Some': 14, 'U-Many': 10, 'E-No': 10, 'E-Some': 7, 'E-Many': 5 }
+    };
+
+    const writingRates = {
+        '250': { 'R-No': 0.75, 'R-Min': 1.0, 'R-Ext': 1.25, 'A-No': 1.5, 'A-Min': 2.0, 'A-Ext': 2.5, 'Res-No': 3.0, 'Res-Min': 4.0, 'Res-Ext': 5.0 },
+        '500': { 'R-No': 1.5, 'R-Min': 2.0, 'R-Ext': 2.5, 'A-No': 3.0, 'A-Min': 4.0, 'A-Ext': 5.0, 'Res-No': 6.0, 'Res-Min': 8.0, 'Res-Ext': 10.0 }
+    };
+
+    function addRow(type) {
+        const container = document.getElementById(type + '-list');
+        const div = document.createElement('div');
+        div.className = 'input-group';
+        
+        if (type === 'reading') {
+            div.innerHTML = `
+                <input type="text" placeholder="e.g. Chapter 1" oninput="calculate()">
+                <input type="number" placeholder="Pages" class="pages" oninput="calculate()">
+                <select class="density" onchange="calculate()">
+                    <option value="450">Paperback (450w)</option>
+                    <option value="600">Monograph (600w)</option>
+                    <option value="750">Textbook (750w)</option>
+                </select>
+                <select class="context" onchange="calculate()">
+                    <option value="U-Some">Understand; Some New</option>
+                    <option value="S-No">Survey; No New</option>
+                    <option value="E-Many">Engage; Many New</option>
+                    </select>
+                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">X</button>
+            `;
+        } else {
+            div.innerHTML = `
+                <input type="text" placeholder="e.g. Reflection" oninput="calculate()">
+                <input type="number" placeholder="Pages" class="pages" oninput="calculate()">
+                <select class="density" onchange="calculate()">
+                    <option value="250">Double Spaced (250w)</option>
+                    <option value="500">Single Spaced (500w)</option>
+                </select>
+                <select class="context" onchange="calculate()">
+                    <option value="A-Min">Argument; Minimal Drafting</option>
+                    <option value="R-No">Reflection; No Drafting</option>
+                    <option value="Res-Ext">Research; Extensive Drafting</option>
+                </select>
+                <button class="remove-btn" onclick="this.parentElement.remove(); calculate()">X</button>
+            `;
+        }
+        container.appendChild(div);
+    }
+
+    function calculate() {
+        let total = 0;
+
+        // Calculate Reading
+        document.querySelectorAll('#reading-list .input-group').forEach(row => {
+            const p = parseFloat(row.querySelector('.pages').value) || 0;
+            const d = row.querySelector('.density').value;
+            const c = row.querySelector('.context').value;
+            total += p / readingRates[d][c];
+        });
+
+        // Calculate Writing
+        document.querySelectorAll('#writing-list .input-group').forEach(row => {
+            const p = parseFloat(row.querySelector('.pages').value) || 0;
+            const d = row.querySelector('.density').value;
+            const c = row.querySelector('.context').value;
+            total += p * writingRates[d][c];
+        });
+
+        document.getElementById('total-hours').innerText = total.toFixed(1);
+        
+        const msg = document.getElementById('status-msg');
+        if (total > 12) {
+            msg.innerText = "⚠️ DANGER: Significant overload. High student burnout risk.";
+        } else if (total > 8) {
+            msg.innerText = "Moderate: A heavy but manageable week for most.";
+        } else {
+            msg.innerText = "Healthy: Balanced workload.";
+        }
+    }
+
+    // Add initial rows
+    addRow('reading');
+    addRow('writing');
+</script>
+
+</body>
+</html>
