@@ -3,122 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cochise College - Master Workload Estimator</title>
+    <title>Cochise CYB - Lab & Lecture Workload Tool</title>
     <style>
         :root {
             --cochise-red: #D32F2F;
             --pure-white: #FFFFFF;
-            --bg-gray: #f8f9fa;
-            --border-gray: #dee2e6;
-            --text-main: #2d3436;
-            --success: #2ecc71;
-            --warning: #f1c40f;
+            --bg-gray: #f4f7f6;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            --success: #27ae60;
+            --warning: #f39c12;
             --danger: #e74c3c;
         }
 
-        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg-gray); color: var(--text-main); line-height: 1.6; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg-gray); padding: 20px; color: #333; }
+        .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow); border-top: 12px solid var(--cochise-red); }
         
-        /* Header & Credits */
-        header { background: var(--cochise-red); color: white; padding: 2rem; border-radius: 8px 8px 0 0; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .credit-picker { background: rgba(255,255,255,0.1); padding: 15px; display: inline-block; border-radius: 30px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.3); }
-        select#course-credits { background: transparent; color: white; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        select#course-credits option { color: black; }
+        /* Header Configuration */
+        header { padding: 30px; background: #fff; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: flex-start; }
+        .config-panel { display: flex; gap: 20px; background: #fafafa; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
+        .config-panel label { font-size: 0.8rem; font-weight: bold; text-transform: uppercase; color: #666; display: block; margin-bottom: 5px; }
+        .config-panel input { width: 60px; font-size: 1.2rem; padding: 5px; text-align: center; border: 2px solid var(--cochise-red); border-radius: 4px; }
 
         /* Dashboard */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-bottom: 4px solid var(--border-gray); }
-        .stat-card.active { border-bottom-color: var(--cochise-red); }
-        .stat-val { font-size: 2rem; font-weight: 800; color: var(--cochise-red); display: block; }
+        .dashboard { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; padding: 0 30px 30px 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+        .stat-val { font-size: 2.2rem; font-weight: 800; color: var(--cochise-red); display: block; }
+        .stat-label { font-size: 0.85rem; color: #777; font-weight: 600; }
 
-        /* Progress Bar Section */
-        .progress-box { background: white; padding: 25px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .progress-container { background: #eee; height: 40px; border-radius: 20px; overflow: hidden; position: relative; border: 2px solid #ddd; }
-        #progress-bar { height: 100%; width: 0%; transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: var(--success); }
-        .progress-text { position: absolute; width: 100%; text-align: center; line-height: 40px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .progress-section { padding: 0 30px 30px 30px; }
+        .progress-container { height: 45px; background: #eee; border-radius: 25px; overflow: hidden; position: relative; border: 3px solid #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        #progress-bar { height: 100%; width: 0%; transition: width 0.4s ease; background: var(--success); }
+        .progress-text { position: absolute; width: 100%; text-align: center; line-height: 40px; font-weight: 900; color: #222; mix-blend-mode: multiply; }
 
         /* Module Sections */
-        .module { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--cochise-red); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .module-title { font-weight: 800; text-transform: uppercase; font-size: 0.9rem; color: #666; margin-bottom: 15px; display: flex; justify-content: space-between; }
+        .module { padding: 20px 30px; border-bottom: 1px solid #eee; }
+        .module:last-child { border-bottom: none; }
+        .module-header { font-weight: bold; color: var(--cochise-red); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         
-        .row-grid { display: grid; grid-template-columns: 2fr 1fr 2fr 1fr 40px; gap: 10px; margin-bottom: 10px; align-items: center; }
-        input, select { padding: 10px; border: 1px solid var(--border-gray); border-radius: 4px; font-size: 0.9rem; }
+        .row-grid { display: grid; grid-template-columns: 2fr 1fr 2fr 1fr 40px; gap: 10px; margin-bottom: 12px; }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
         
-        .add-btn { background: none; border: 2px dashed var(--border-gray); color: #888; width: 100%; padding: 10px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s; }
-        .add-btn:hover { border-color: var(--cochise-red); color: var(--cochise-red); background: #fff5f5; }
-        .remove-btn { color: #ccc; border: none; background: none; cursor: pointer; font-size: 1.5rem; }
+        .add-btn { background: #fdfdfd; border: 2px dashed #ccc; color: #888; width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-top: 5px; }
+        .add-btn:hover { border-color: var(--cochise-red); color: var(--cochise-red); background: #fff8f8; }
+        .remove-btn { color: #ccc; border: none; background: none; cursor: pointer; font-size: 1.4rem; line-height: 1; }
         .remove-btn:hover { color: var(--danger); }
 
-        footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; padding-bottom: 40px; }
+        .note { font-size: 0.8rem; color: #999; padding: 20px 30px; background: #fcfcfc; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Course Workload Integrity Tool</h1>
-        <div class="credit-picker">
-            Course Credit Weight: 
-            <select id="course-credits" onchange="calculate()">
-                <option value="1">1 Credit</option>
-                <option value="2">2 Credits</option>
-                <option value="3" selected>3 Credits</option>
-                <option value="4">4 Credits</option>
-                <option value="5">5 Credits</option>
-            </select>
+        <div>
+            <h1 style="margin:0; color:var(--cochise-red);">Workload Integrator</h1>
+            <p style="margin:5px 0 0 0; color:#666;">Lecture + Lab Credit Alignment Tool</p>
+        </div>
+        <div class="config-panel">
+            <div>
+                <label>Lecture Hrs</label>
+                <input type="number" id="lec-hrs" value="2" step="1" oninput="calculate()">
+            </div>
+            <div>
+                <label>Lab Hrs</label>
+                <input type="number" id="lab-hrs" value="3" step="1" oninput="calculate()">
+            </div>
+            <div style="border-left: 1px solid #ddd; padding-left: 15px;">
+                <label>Total Credits</label>
+                <div id="calc-credits" style="font-size: 1.2rem; font-weight: bold; padding-top: 5px;">4.1</div>
+            </div>
         </div>
     </header>
 
-    <div class="progress-box">
-        <div class="module-title"><span>Weekly Cognitive Load Status</span> <span id="feedback-label">Healthy</span></div>
+    <div class="progress-section">
         <div class="progress-container">
             <div id="progress-bar"></div>
             <div class="progress-text" id="progress-percent">0% CAPACITY</div>
         </div>
-        <div class="dashboard">
-            <div class="stat-card active">
-                <span class="stat-val" id="total-hours">0.0</span>
-                Total Weekly Hours
-            </div>
-            <div class="stat-card">
-                <span class="stat-val" id="budget-hours">9.0</span>
-                Max Budgeted Hours
-            </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="stat-card">
+            <span class="stat-val" id="total-assigned">0.0</span>
+            <span class="stat-label">Total Assigned Hrs</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-val" id="total-budget">12.3</span>
+            <span class="stat-label">Max Weekly Budget</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-val" id="hw-remaining" style="color:var(--success);">7.3</span>
+            <span class="stat-label">Remaining HW Budget</span>
         </div>
     </div>
 
-    <div class="module">
-        <div class="module-title">1. Synchronous Time (Lectures, Meetings, Labs)</div>
-        <div id="class-list"></div>
-        <button class="add-btn" onclick="addRow('class')">+ Add Meeting/Lecture</button>
+    <div class="module" style="background: #fff9f9;">
+        <div class="module-header"><span>In-Class & Contact Time</span> <span style="font-size: 0.7rem; color:#888;">(Calculated from Header)</span></div>
+        <p id="contact-summary" style="font-size: 0.9rem;">2 hrs Lecture + 3 hrs Lab = 5 hrs Synchronous Time</p>
     </div>
 
     <div class="module">
-        <div class="module-title">2. Independent Reading (Research-Based Rates)</div>
+        <div class="module-header">Independent Reading</div>
         <div id="reading-list"></div>
         <button class="add-btn" onclick="addRow('reading')">+ Add Reading Task</button>
     </div>
 
     <div class="module">
-        <div class="module-title">3. Writing & Drafting</div>
+        <div class="module-header">Writing & Projects</div>
         <div id="writing-list"></div>
-        <button class="add-btn" onclick="addRow('writing')">+ Add Writing Assignment</button>
+        <button class="add-btn" onclick="addRow('writing')">+ Add Writing Task</button>
     </div>
 
     <div class="module">
-        <div class="module-title">4. Quizzes, Exams, & Technical Labs</div>
+        <div class="module-header">Assessments & Prep</div>
         <div id="other-list"></div>
-        <button class="add-btn" onclick="addRow('other')">+ Add Assessment or Lab</button>
+        <button class="add-btn" onclick="addRow('other')">+ Add Quiz/Test/Homework</button>
     </div>
 
-    <footer>
-        Data source: Rayner et al. (2016) Reading Rates & Torrance (2000) Writing Strategy Analysis.<br>
-        Developed for Cochise College Faculty.
-    </footer>
+    <div class="note">
+        <b>Logic:</b> 1 Lecture Hour = 1.0 Credit | 1 Lab Hour = 0.7 Credit. <br>
+        Total Budget is Credits × 3. Remaining HW Budget = Budget minus (Lecture + Lab Hours).
+    </div>
 </div>
 
 <script>
-    // Rates from your data
     const readingRates = {
         '450': { 'S-No': 67, 'S-Some': 47, 'S-Many': 33, 'U-No': 33, 'U-Some': 24, 'U-Many': 17, 'E-No': 17, 'E-Some': 12, 'E-Many': 9 },
         '600': { 'S-No': 50, 'S-Some': 35, 'S-Many': 25, 'U-No': 25, 'U-Some': 18, 'U-Many': 13, 'E-No': 13, 'E-Some': 9, 'E-Many': 7 },
@@ -135,125 +143,80 @@
         const div = document.createElement('div');
         div.className = 'row-grid';
         
-        let html = '';
-        if (type === 'class') {
-            html = `
-                <input type="text" placeholder="e.g. In-Person Lecture" oninput="calculate()">
-                <span>Hours:</span>
-                <input type="number" class="val" value="1" step="0.5" oninput="calculate()">
-                <span>(Fixed)</span>
-            `;
-        } else if (type === 'reading') {
-            html = `
-                <input type="text" placeholder="e.g. Chapter 4" oninput="calculate()">
+        if (type === 'reading') {
+            div.innerHTML = `
+                <input type="text" placeholder="e.g. Cisco Ch 12" oninput="calculate()">
                 <input type="number" placeholder="Pages" class="val" oninput="calculate()">
-                <select class="opt1" onchange="calculate()">
-                    <option value="750">Textbook (750w)</option>
-                    <option value="600">Monograph (600w)</option>
-                    <option value="450">Paperback (450w)</option>
-                </select>
-                <select class="opt2" onchange="calculate()">
-                    <option value="U-Some">Understand; Some New</option>
-                    <option value="U-Many">Understand; Many New</option>
-                    <option value="E-Some">Engage; Some New</option>
-                    <option value="S-No">Survey; No New</option>
-                </select>
+                <select class="opt1" onchange="calculate()"><option value="750">Textbook (750w)</option><option value="600">Monograph (600w)</option></select>
+                <select class="opt2" onchange="calculate()"><option value="U-Some">Understand; Some New</option><option value="E-Many">Engage; Many New</option></select>
             `;
         } else if (type === 'writing') {
-            html = `
-                <input type="text" placeholder="e.g. Weekly Journal" oninput="calculate()">
+            div.innerHTML = `
+                <input type="text" placeholder="e.g. Lab Report" oninput="calculate()">
                 <input type="number" placeholder="Pages" class="val" oninput="calculate()">
-                <select class="opt1" onchange="calculate()">
-                    <option value="250">Double Spaced</option>
-                    <option value="500">Single Spaced</option>
-                </select>
-                <select class="opt2" onchange="calculate()">
-                    <option value="A-Min">Argument; Minimal Drafting</option>
-                    <option value="R-No">Reflection; No Drafting</option>
-                    <option value="Res-Ext">Research; Extensive Drafting</option>
-                </select>
+                <select class="opt1" onchange="calculate()"><option value="250">Double Spaced</option><option value="500">Single Spaced</option></select>
+                <select class="opt2" onchange="calculate()"><option value="A-Min">Argument; Minimal Drafting</option><option value="R-No">Reflection</option></select>
             `;
-        } else if (type === 'other') {
-            html = `
-                <input type="text" placeholder="e.g. CYB Lab 1" oninput="calculate()">
+        } else {
+            div.innerHTML = `
+                <input type="text" placeholder="e.g. Quiz Study" oninput="calculate()">
                 <input type="number" placeholder="Hours" class="val" step="0.5" oninput="calculate()">
-                <select class="opt1" onchange="calculate()">
-                    <option value="1">No Study Time</option>
-                    <option value="1.5">Moderate Prep</option>
-                    <option value="2">Heavy Study/Review</option>
-                </select>
-                <span>(Multiplier)</span>
+                <select class="opt1" onchange="calculate()"><option value="1">No Multiplier</option><option value="1.5">Focus Mode</option></select>
+                <span>(Prep)</span>
             `;
         }
         
-        div.innerHTML = html + `<button class="remove-btn" onclick="this.parentElement.remove(); calculate()">×</button>`;
+        div.innerHTML += `<button class="remove-btn" onclick="this.parentElement.remove(); calculate()">×</button>`;
         container.appendChild(div);
         calculate();
     }
 
     function calculate() {
-        let total = 0;
-        const credits = parseInt(document.getElementById('course-credits').value);
+        const lec = parseFloat(document.getElementById('lec-hrs').value) || 0;
+        const lab = parseFloat(document.getElementById('lab-hrs').value) || 0;
+        
+        const credits = (lec * 1) + (lab * 0.7);
         const budget = credits * 3;
+        const contactTime = lec + lab;
+        
+        let assignedHW = 0;
 
-        // Sum Class Time
-        document.querySelectorAll('#class-list .row-grid').forEach(row => {
-            total += parseFloat(row.querySelector('.val').value) || 0;
-        });
-
-        // Sum Reading
         document.querySelectorAll('#reading-list .row-grid').forEach(row => {
-            const val = parseFloat(row.querySelector('.val').value) || 0;
-            const d = row.querySelector('.opt1').value;
-            const c = row.querySelector('.opt2').value;
-            total += val / readingRates[d][c];
+            const v = parseFloat(row.querySelector('.val').value) || 0;
+            assignedHW += v / readingRates[row.querySelector('.opt1').value][row.querySelector('.opt2').value];
         });
 
-        // Sum Writing
         document.querySelectorAll('#writing-list .row-grid').forEach(row => {
-            const val = parseFloat(row.querySelector('.val').value) || 0;
-            const d = row.querySelector('.opt1').value;
-            const c = row.querySelector('.opt2').value;
-            total += val * writingRates[d][c];
+            const v = parseFloat(row.querySelector('.val').value) || 0;
+            assignedHW += v * writingRates[row.querySelector('.opt1').value][row.querySelector('.opt2').value];
         });
 
-        // Sum Other
         document.querySelectorAll('#other-list .row-grid').forEach(row => {
-            const val = parseFloat(row.querySelector('.val').value) || 0;
-            const mult = parseFloat(row.querySelector('.opt1').value);
-            total += val * mult;
+            const v = parseFloat(row.querySelector('.val').value) || 0;
+            assignedHW += v * parseFloat(row.querySelector('.opt1').value);
         });
 
-        // Update UI
-        document.getElementById('total-hours').innerText = total.toFixed(1);
-        document.getElementById('budget-hours').innerText = budget.toFixed(1);
-        
-        const percent = Math.min((total / budget) * 100, 100);
-        const bar = document.getElementById('progress-bar');
-        const barText = document.getElementById('progress-percent');
-        const feedback = document.getElementById('feedback-label');
-        
-        bar.style.width = (total / budget * 100) + '%';
-        barText.innerText = Math.round((total / budget) * 100) + '% CAPACITY';
+        const totalAssigned = contactTime + assignedHW;
+        const remaining = budget - totalAssigned;
 
-        if (total > budget) {
-            bar.style.backgroundColor = 'var(--danger)';
-            feedback.innerText = "OVER BUDGET";
-            feedback.style.color = 'var(--danger)';
-        } else if (total > budget * 0.8) {
-            bar.style.backgroundColor = 'var(--warning)';
-            feedback.innerText = "HEAVY LOAD";
-            feedback.style.color = 'var(--warning)';
-        } else {
-            bar.style.backgroundColor = 'var(--success)';
-            feedback.innerText = "HEALTHY";
-            feedback.style.color = 'var(--success)';
-        }
+        // UI Updates
+        document.getElementById('calc-credits').innerText = credits.toFixed(1);
+        document.getElementById('total-assigned').innerText = totalAssigned.toFixed(1);
+        document.getElementById('total-budget').innerText = budget.toFixed(1);
+        document.getElementById('hw-remaining').innerText = remaining.toFixed(1);
+        document.getElementById('contact-summary').innerText = `${lec} hrs Lecture + ${lab} hrs Lab = ${contactTime} hrs Synchronous Time`;
+        
+        const hwLabel = document.getElementById('hw-remaining');
+        hwLabel.style.color = remaining < 0 ? 'var(--danger)' : 'var(--success)';
+
+        const percent = Math.min((totalAssigned / budget) * 100, 100);
+        const bar = document.getElementById('progress-bar');
+        bar.style.width = (totalAssigned / budget * 100) + '%';
+        bar.style.backgroundColor = totalAssigned > budget ? 'var(--danger)' : (totalAssigned > budget * 0.8 ? 'var(--warning)' : 'var(--success)');
+        document.getElementById('progress-percent').innerText = Math.round((totalAssigned / budget) * 100) + '% OF WEEKLY CAPACITY';
     }
 
-    // Default Rows
-    addRow('class');
-    addRow('reading');
+    calculate();
 </script>
 
 </body>
